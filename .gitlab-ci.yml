@@ -1,0 +1,49 @@
+variables:
+  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
+  MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
+
+image: maven:3-openjdk-11
+
+include:
+  - template: Security/SAST.gitlab-ci.yml
+
+cache:
+  paths:
+    - .m2/repository
+    - target
+
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  script:
+    - mvn $MAVEN_CLI_OPTS compile
+  except:
+    - tags
+
+test:
+  stage: test
+  script:
+    - mvn $MAVEN_CLI_OPTS verify
+    - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, "instructions covered"; print 100*covered/instructions, "% covered" }' target/site/jacoco/jacoco.csv
+    - bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r target/site/jacoco/jacoco.xml
+  coverage: '/(\d+\.?\d*) \% covered/'
+  except:
+    - tags
+
+sast:
+  stage: test
+
+spotbugs-sast:
+  variables:
+    SAST_JAVA_VERSION: 11
+
+release:
+  stage: deploy
+  script:
+    - mvn $MAVEN_CLI_OPTS -s ci_settings.xml clean deploy -Dchangelist= -ntp -Psources,javadocs,sign-and-deploy
+  only:
+    - tags

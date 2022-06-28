@@ -1,6 +1,6 @@
 # Tidy Chat
 
-
+A Telegram bot keeps a chat tidy.
 
 ## Getting started
 
@@ -15,14 +15,14 @@ Already a pro? Just edit this README.md and make it your own. Want to make it ea
 
 ```
 cd existing_repo
-git remote add origin https://gitlab.com/bot-by/tidy-chat.git
+git remote add origin https://gitlab.com/bot-by/tidy_chat.git
 git branch -M main
 git push -uf origin main
 ```
 
 ## Integrate with your tools
 
-- [ ] [Set up project integrations](https://gitlab.com/bot-by/tidy-chat/-/settings/integrations)
+- [ ] [Set up project integrations](https://gitlab.com/bot-by/tidy_chat/-/settings/integrations)
 
 ## Collaborate with your team
 
