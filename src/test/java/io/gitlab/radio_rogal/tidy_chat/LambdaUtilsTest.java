@@ -1,4 +1,4 @@
-package uk.bot_by.tidy_chat;
+package io.gitlab.radio_rogal.tidy_chat;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsMapContaining.hasEntry;

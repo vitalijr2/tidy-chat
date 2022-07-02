@@ -13,11 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.bot_by.tidy_chat;
-
-import static uk.bot_by.tidy_chat.TelegramField.ChatID;
-import static uk.bot_by.tidy_chat.TelegramField.MessageId;
-import static uk.bot_by.tidy_chat.TelegramField.Method;
+package io.gitlab.radio_rogal.tidy_chat;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -65,8 +61,8 @@ public class TelegramUtils {
   }
 
   public static String deleteMessage(long chatId, long messageId) {
-    return messageBuilder().add(Method, DELETE_MESSAGE).add(ChatID, chatId)
-        .add(MessageId, messageId).build();
+    return messageBuilder().add(TelegramField.Method, DELETE_MESSAGE).add(TelegramField.ChatID, chatId)
+        .add(TelegramField.MessageId, messageId).build();
   }
 
   private static MessageBuilder messageBuilder() {

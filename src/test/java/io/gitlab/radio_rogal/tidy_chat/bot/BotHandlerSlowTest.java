@@ -1,4 +1,4 @@
-package uk.bot_by.tidy_chat.bot;
+package io.gitlab.radio_rogal.tidy_chat.bot;
 
 import static com.github.npathai.hamcrestopt.OptionalMatchers.isEmpty;
 import static com.github.npathai.hamcrestopt.OptionalMatchers.isPresent;

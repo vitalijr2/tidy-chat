@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.bot_by.tidy_chat.bot;
+package io.gitlab.radio_rogal.tidy_chat.bot;
 
 import static java.util.Objects.isNull;
 import static java.util.Optional.empty;
-import static uk.bot_by.tidy_chat.LambdaUtils.getResponseEvent;
-import static uk.bot_by.tidy_chat.TelegramUtils.deleteMessage;
-import static uk.bot_by.tidy_chat.TelegramUtils.getChatId;
-import static uk.bot_by.tidy_chat.TelegramUtils.getMessageId;
-import static uk.bot_by.tidy_chat.TelegramUtils.isBotMessage;
+import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.deleteMessage;
+import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.getChatId;
+import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.getMessageId;
+import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.isBotMessage;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
+import io.gitlab.radio_rogal.tidy_chat.LambdaUtils;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
@@ -36,7 +36,6 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
-import uk.bot_by.tidy_chat.LambdaUtils;
 
 public class BotHandler implements
     RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
@@ -98,7 +97,7 @@ public class BotHandler implements
 
       logger.info("chat {}", chatId);
 
-      responseEvent = Optional.of(getResponseEvent(responseBody));
+      responseEvent = Optional.of(LambdaUtils.getResponseEvent(responseBody));
     }
 
     return responseEvent;

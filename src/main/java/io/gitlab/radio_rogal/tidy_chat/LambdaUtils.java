@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.bot_by.tidy_chat;
+package io.gitlab.radio_rogal.tidy_chat;
 
 import static java.util.Collections.singletonMap;
 

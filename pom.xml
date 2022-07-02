@@ -19,13 +19,13 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>uk.bot-by.tg</groupId>
+  <groupId>io.gitlab.radio_rogal.tg</groupId>
   <artifactId>tidy-chat</artifactId>
   <version>${revision}${changelist}${sha1}</version>
 
   <name>Tidy Chat</name>
   <description>A Telegram bot keeps a chat tidy.</description>
-  <url>https://gitlab.com/bot-by/tidy-chat</url>
+  <url>https://gitlab.com/radio_rogal/tidy-chat</url>
   <inceptionYear>2022</inceptionYear>
   <licenses>
     <license>
@@ -35,11 +35,6 @@
       <comments>See NOTICE for third-party licenses.</comments>
     </license>
   </licenses>
-
-  <organization>
-    <name>bot-by</name>
-    <url>https://bot-by.uk</url>
-  </organization>
 
   <developers>
     <developer>
@@ -52,17 +47,17 @@
   </developers>
 
   <scm>
-    <url>https://gitlab.com/bot-by/tidy-chat</url>
-    <connection>scm:git:https://gitlab.com/bot-by/tidy-chat.git</connection>
-    <developerConnection>scm:git:git@gitlab.com:bot-by/tidy-chat.git</developerConnection>
+    <url>https://gitlab.com/radio_rogal/tidy-chat</url>
+    <connection>scm:git:https://gitlab.com/radio_rogal/tidy-chat.git</connection>
+    <developerConnection>scm:git:git@gitlab.com:radio_rogal/tidy-chat.git</developerConnection>
   </scm>
   <issueManagement>
     <system>GitLab</system>
-    <url>https://gitlab.com/bot-by/tidy-chat/-/issues</url>
+    <url>https://gitlab.com/radio_rogal/tidy-chat/-/issues</url>
   </issueManagement>
   <ciManagement>
     <system>GitLab</system>
-    <url>https://gitlab.com/bot-by/tidy-chat/-/pipelines</url>
+    <url>https://gitlab.com/radio_rogal/tidy-chat/-/pipelines</url>
   </ciManagement>
 
   <properties>

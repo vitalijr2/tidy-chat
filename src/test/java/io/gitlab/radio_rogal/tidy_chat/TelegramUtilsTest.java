@@ -1,4 +1,4 @@
-package uk.bot_by.tidy_chat;
+package io.gitlab.radio_rogal.tidy_chat;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
@@ -6,10 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static uk.bot_by.tidy_chat.TelegramUtils.deleteMessage;
-import static uk.bot_by.tidy_chat.TelegramUtils.getChatId;
-import static uk.bot_by.tidy_chat.TelegramUtils.getId;
-import static uk.bot_by.tidy_chat.TelegramUtils.isBotMessage;
+import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.deleteMessage;
+import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.getChatId;
+import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.getId;
+import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.isBotMessage;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
