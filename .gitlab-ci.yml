@@ -15,14 +15,11 @@ cache:
 stages:
   - build
   - test
-  - deploy
 
 build:
   stage: build
   script:
     - mvn $MAVEN_CLI_OPTS compile
-  except:
-    - tags
 
 test:
   stage: test
@@ -31,8 +28,6 @@ test:
     - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, "instructions covered"; print 100*covered/instructions, "% covered" }' target/site/jacoco/jacoco.csv
     - bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r target/site/jacoco/jacoco.xml
   coverage: '/(\d+\.?\d*) \% covered/'
-  except:
-    - tags
 
 sast:
   stage: test
@@ -40,10 +35,3 @@ sast:
 spotbugs-sast:
   variables:
     SAST_JAVA_VERSION: 11
-
-release:
-  stage: deploy
-  script:
-    - mvn $MAVEN_CLI_OPTS -s ci_settings.xml clean deploy -Dchangelist= -ntp -Psources,javadocs,sign-and-deploy
-  only:
-    - tags

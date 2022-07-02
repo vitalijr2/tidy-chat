@@ -5,6 +5,10 @@ A Telegram bot keeps a chat tidy.
 [![Codacy Grade](https://app.codacy.com/project/badge/Grade/045e9388af91430fa9187e0aab2e96b9)](https://www.codacy.com/gl/bot-by/tidy-chat/dashboard?utm_source=gitlab.com&utm_medium=referral&utm_content=bot-by/tidy-chat&utm_campaign=Badge_Grade)
 [![Codacy Coverage](https://app.codacy.com/project/badge/Coverage/045e9388af91430fa9187e0aab2e96b9)](https://www.codacy.com/gl/bot-by/tidy-chat/dashboard?utm_source=gitlab.com&utm_medium=referral&utm_content=bot-by/tidy-chat&utm_campaign=Badge_Coverage)
 
+## What does this bot do
+
+- Remove join and left messages.
+
 ## Contributing
 
 Please read [Contributing](contributing.md).
