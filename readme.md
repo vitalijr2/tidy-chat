@@ -2,8 +2,8 @@
 
 A Telegram bot keeps a chat tidy.
 
-[![Codacy Grade](https://app.codacy.com/project/badge/Grade/045e9388af91430fa9187e0aab2e96b9)](https://www.codacy.com/gl/bot-by/tidy-chat/dashboard?utm_source=gitlab.com&utm_medium=referral&utm_content=bot-by/tidy-chat&utm_campaign=Badge_Grade)
-[![Codacy Coverage](https://app.codacy.com/project/badge/Coverage/045e9388af91430fa9187e0aab2e96b9)](https://www.codacy.com/gl/bot-by/tidy-chat/dashboard?utm_source=gitlab.com&utm_medium=referral&utm_content=bot-by/tidy-chat&utm_campaign=Badge_Coverage)
+[![Codacy Grade](https://app.codacy.com/project/badge/Grade/c3ff723d193f4adcb16fd89a8eaa1262)](https://www.codacy.com/gl/radio_rogal/tidy-chat/dashboard?utm_source=gitlab.com&amp;utm_medium=referral&amp;utm_content=radio_rogal/tidy-chat&amp;utm_campaign=Badge_Grade)
+[![Codacy Coverage](https://app.codacy.com/project/badge/Coverage/c3ff723d193f4adcb16fd89a8eaa1262)](https://www.codacy.com/gl/radio_rogal/tidy-chat/dashboard?utm_source=gitlab.com&utm_medium=referral&utm_content=radio_rogal/tidy-chat&utm_campaign=Badge_Coverage)
 
 ## What does this bot do
 
