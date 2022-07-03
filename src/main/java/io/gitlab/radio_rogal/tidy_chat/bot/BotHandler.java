@@ -96,7 +96,7 @@ public class BotHandler implements
       var messageId = getMessageId(message);
       var responseBody = deleteMessage(chatId, messageId);
 
-      logger.info("chat {}", chatId);
+      logger.info("remove message in the chat {}", chatId);
 
       responseEvent = Optional.of(LambdaUtils.getResponseEvent(responseBody));
     }
