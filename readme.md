@@ -7,8 +7,8 @@ A Telegram bot keeps a chat tidy.
 
 ## What does this bot do
 
-- Remove join and left messages.
-- Remove new title, new photo and delete photo messages.
+- Remove message about joining or leaving a chat.
+- Remove messages about new title, new chat photo or deleted chat photo.
 - Remove notification about a pinned message.
 
 ## Contributing

@@ -62,7 +62,7 @@
 
   <properties>
     <!-- version -->
-    <revision>1.0.0</revision>
+    <revision>1.1.0</revision>
     <changelist>-SNAPSHOT</changelist>
     <sha1/>
     <!-- java and maven -->
