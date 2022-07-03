@@ -34,7 +34,8 @@ class BotHandlerSlowTest {
 
   @DisplayName("Remove join or left messages")
   @ParameterizedTest
-  @ValueSource(strings = {"new_chat_members", "left_chat_member"})
+  @ValueSource(strings = {"new_chat_members", "left_chat_member", "pinned_message",
+      "new_chat_title", "new_chat_photo", "delete_chat_photo"})
   void removeJoinOrLeftMessages(String action) {
     // given
     JSONObject chat = new JSONObject();
