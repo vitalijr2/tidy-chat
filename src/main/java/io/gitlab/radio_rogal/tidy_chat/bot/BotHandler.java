@@ -15,12 +15,12 @@
  */
 package io.gitlab.radio_rogal.tidy_chat.bot;
 
-import static java.util.Objects.isNull;
-import static java.util.Optional.empty;
 import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.deleteMessage;
 import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.getChatId;
 import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.getMessageId;
 import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.isBotMessage;
+import static java.util.Objects.isNull;
+import static java.util.Optional.empty;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
@@ -42,8 +42,9 @@ public class BotHandler implements
 
   private static final String AWS_REQUEST_ID = "request#";
   private static final String FORWARDED_FOR = "X-Forwarded-For";
-  private static final Collection<String> JOIN_AND_LEFT_MEMBERS = Set.of("new_chat_members",
-      "left_chat_member");
+  private static final Collection<String> REMOVE_MESSAGES_WITH_KEYS = Set.of("new_chat_members",
+      "left_chat_member", "new_chat_title", "new_chat_photo", "delete_chat_photo",
+      "pinned_message");
   private static final int MAX_SUBSTRING_LENGTH = 1024;
   private static final String MESSAGE = "message";
 
@@ -90,7 +91,7 @@ public class BotHandler implements
 
     if (isBotMessage(message)) {
       logger.debug("Ignore message via another bot");
-    } else if (message.keySet().stream().anyMatch(JOIN_AND_LEFT_MEMBERS::contains)) {
+    } else if (message.keySet().stream().anyMatch(REMOVE_MESSAGES_WITH_KEYS::contains)) {
       var chatId = getChatId(message);
       var messageId = getMessageId(message);
       var responseBody = deleteMessage(chatId, messageId);

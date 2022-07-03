@@ -61,7 +61,8 @@ public class TelegramUtils {
   }
 
   public static String deleteMessage(long chatId, long messageId) {
-    return messageBuilder().add(TelegramField.Method, DELETE_MESSAGE).add(TelegramField.ChatID, chatId)
+    return messageBuilder().add(TelegramField.Method, DELETE_MESSAGE)
+        .add(TelegramField.ChatID, chatId)
         .add(TelegramField.MessageId, messageId).build();
   }
 
