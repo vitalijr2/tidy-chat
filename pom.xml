@@ -89,7 +89,7 @@
     <nexus-staging-plugin.version>1.6.13</nexus-staging-plugin.version>
     <aws-plugin.version>0.2.29</aws-plugin.version>
     <!-- test -->
-    <junit-jupiter.version>5.8.2</junit-jupiter.version>
+    <junit-jupiter.version>5.9.0</junit-jupiter.version>
     <mockito.version>4.6.1</mockito.version>
     <hamcrest.version>2.2</hamcrest.version>
     <hamcrest-optional.version>2.0.0</hamcrest-optional.version>
