@@ -25,16 +25,21 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
+import org.slf4j.Marker;
 
 @ExtendWith(MockitoExtension.class)
 @Tag("fast")
 class BotHandlerFastTest {
 
+  @Captor
+  private ArgumentCaptor<Marker> markerCaptor;
   @Mock
   private Context context;
   @Mock
@@ -139,6 +144,34 @@ class BotHandlerFastTest {
     assertAll("Response", () -> assertEquals(expectedBody, responseEvent.getBody()),
         () -> assertEquals(expectedContentType, responseEvent.getHeaders().get("Content-Type")),
         () -> assertEquals(expectedStatusCode, responseEvent.getStatusCode()));
+  }
+
+  @DisplayName("Remove a message")
+  @ParameterizedTest
+  @ValueSource(strings = {"new_chat_members", "left_chat_member", "new_chat_title",
+      "new_chat_photo", "delete_chat_photo", "pinned_message"})
+  void removeMessage(String action) {
+    when(logger.isInfoEnabled(isA(Marker.class))).thenReturn(true);
+
+    JSONObject chat = new JSONObject();
+    JSONObject member_action = new JSONObject();
+
+    chat.put("id", 9876543210L);
+    member_action.put("chat", chat);
+    member_action.put("message_id", 12345L);
+    member_action.put(action, "test");
+
+    // when
+    var responseEvent = handler.processMessage(member_action);
+
+    // then
+    verify(logger).isInfoEnabled(markerCaptor.capture());
+    verify(logger).info(markerCaptor.capture(), eq("remove message in the chat {}: {}"),
+        eq(9876543210L), eq(action));
+
+    responseEvent.ifPresent(event -> assertResponseEvent(event,
+        "{\"method\":\"deleteMessage\",\"message_id\":12345,\"chat_id\":9876543210}",
+        "application/json", 200));
   }
 
 }
