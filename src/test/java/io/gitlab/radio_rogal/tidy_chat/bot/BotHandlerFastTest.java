@@ -61,7 +61,7 @@ class BotHandlerFastTest {
 
     // then
     verify(context).getAwsRequestId();
-    verify(logger).info("Empty request from {}", "1.2.3.4.5");
+    verify(logger).warn("Empty request from {}", "1.2.3.4.5");
 
     assertResponseEvent(responseEvent, "OK", "text/plain", 200);
   }
