@@ -2,8 +2,11 @@ package io.gitlab.radio_rogal.tidy_chat.bot;
 
 import static java.util.Collections.singleton;
 import static java.util.Collections.singletonMap;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isA;
@@ -17,6 +20,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.json.JSONObject;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -139,13 +143,6 @@ class BotHandlerFastTest {
     assertResponseEvent(responseEvent, "O.K.", "text/plain", 202);
   }
 
-  private void assertResponseEvent(APIGatewayProxyResponseEvent responseEvent, String expectedBody,
-      String expectedContentType, int expectedStatusCode) {
-    assertAll("Response", () -> assertEquals(expectedBody, responseEvent.getBody()),
-        () -> assertEquals(expectedContentType, responseEvent.getHeaders().get("Content-Type")),
-        () -> assertEquals(expectedStatusCode, responseEvent.getStatusCode()));
-  }
-
   @DisplayName("Remove a message")
   @ParameterizedTest
   @ValueSource(strings = {"new_chat_members", "left_chat_member", "new_chat_title",
@@ -169,9 +166,21 @@ class BotHandlerFastTest {
     verify(logger).info(markerCaptor.capture(), eq("remove message in the chat {}: {}"),
         eq(9876543210L), eq(action));
 
-    responseEvent.ifPresent(event -> assertResponseEvent(event,
+    var markers = markerCaptor.getAllValues().stream().map(Marker::getName)
+        .collect(Collectors.toSet());
+
+    assertThat("Check the remove marker", markers, contains("remove"));
+
+    responseEvent.ifPresentOrElse(event -> assertResponseEvent(event,
         "{\"method\":\"deleteMessage\",\"message_id\":12345,\"chat_id\":9876543210}",
-        "application/json", 200));
+        "application/json", 200), () -> fail("Response event is empty"));
+  }
+
+  private void assertResponseEvent(APIGatewayProxyResponseEvent responseEvent, String expectedBody,
+      String expectedContentType, int expectedStatusCode) {
+    assertAll("Response", () -> assertEquals(expectedBody, responseEvent.getBody()),
+        () -> assertEquals(expectedContentType, responseEvent.getHeaders().get("Content-Type")),
+        () -> assertEquals(expectedStatusCode, responseEvent.getStatusCode()));
   }
 
 }
