@@ -2,8 +2,11 @@ package io.gitlab.radio_rogal.tidy_chat.bot;
 
 import static java.util.Collections.singleton;
 import static java.util.Collections.singletonMap;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isA;
@@ -17,6 +20,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.json.JSONObject;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -25,16 +29,21 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
+import org.slf4j.Marker;
 
 @ExtendWith(MockitoExtension.class)
 @Tag("fast")
 class BotHandlerFastTest {
 
+  @Captor
+  private ArgumentCaptor<Marker> markerCaptor;
   @Mock
   private Context context;
   @Mock
@@ -61,7 +70,7 @@ class BotHandlerFastTest {
 
     // then
     verify(context).getAwsRequestId();
-    verify(logger).info("Empty request from {}", "1.2.3.4.5");
+    verify(logger).warn("Empty request from {}", "1.2.3.4.5");
 
     assertResponseEvent(responseEvent, "OK", "text/plain", 200);
   }
@@ -132,6 +141,39 @@ class BotHandlerFastTest {
     verify(handler).processMessage(isA(JSONObject.class));
 
     assertResponseEvent(responseEvent, "O.K.", "text/plain", 202);
+  }
+
+  @DisplayName("Remove a message")
+  @ParameterizedTest
+  @ValueSource(strings = {"new_chat_members", "left_chat_member", "new_chat_title",
+      "new_chat_photo", "delete_chat_photo", "pinned_message"})
+  void removeMessage(String action) {
+    when(logger.isInfoEnabled(isA(Marker.class))).thenReturn(true);
+
+    JSONObject chat = new JSONObject();
+    JSONObject member_action = new JSONObject();
+
+    chat.put("id", 9876543210L);
+    member_action.put("chat", chat);
+    member_action.put("message_id", 12345L);
+    member_action.put(action, "test");
+
+    // when
+    var responseEvent = handler.processMessage(member_action);
+
+    // then
+    verify(logger).isInfoEnabled(markerCaptor.capture());
+    verify(logger).info(markerCaptor.capture(), eq("remove message in the chat {}: {}"),
+        eq(9876543210L), eq(action));
+
+    var markers = markerCaptor.getAllValues().stream().map(Marker::getName)
+        .collect(Collectors.toSet());
+
+    assertThat("Check the remove marker", markers, contains("remove"));
+
+    responseEvent.ifPresentOrElse(event -> assertResponseEvent(event,
+        "{\"method\":\"deleteMessage\",\"message_id\":12345,\"chat_id\":9876543210}",
+        "application/json", 200), () -> fail("Response event is empty"));
   }
 
   private void assertResponseEvent(APIGatewayProxyResponseEvent responseEvent, String expectedBody,
