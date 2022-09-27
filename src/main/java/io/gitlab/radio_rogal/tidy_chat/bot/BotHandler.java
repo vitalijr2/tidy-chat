@@ -36,6 +36,8 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 
 public class BotHandler implements
     RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
@@ -49,6 +51,7 @@ public class BotHandler implements
   private static final String MESSAGE = "message";
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
+  private final Marker remove = MarkerFactory.getMarker("remove");
 
   @Override
   public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent requestEvent,
@@ -59,7 +62,7 @@ public class BotHandler implements
     var requestEventBody = requestEvent.getBody();
 
     if (isNull(requestEventBody) || requestEventBody.isBlank()) {
-      logger.info("Empty request from {}", requestEvent.getHeaders().get(FORWARDED_FOR));
+      logger.warn("Empty request from {}", requestEvent.getHeaders().get(FORWARDED_FOR));
     } else {
       try {
         var update = new JSONObject(requestEventBody);
@@ -96,7 +99,10 @@ public class BotHandler implements
       var messageId = getMessageId(message);
       var responseBody = deleteMessage(chatId, messageId);
 
-      logger.info("remove message in the chat {}", chatId);
+      if (logger.isInfoEnabled(remove)) {
+        message.keySet().stream().filter(REMOVE_MESSAGES_WITH_KEYS::contains).findAny().ifPresent(
+            key -> logger.info(remove, "remove message in the chat {}: {}", chatId, key));
+      }
 
       responseEvent = Optional.of(LambdaUtils.getResponseEvent(responseBody));
     }
