@@ -74,12 +74,12 @@
     <!-- plugins -->
     <enforcer-plugin.version>3.1.0</enforcer-plugin.version>
     <clean-plugin.version>3.2.0</clean-plugin.version>
-    <flatten-plugin.version>1.2.7</flatten-plugin.version>
+    <flatten-plugin.version>1.3.0</flatten-plugin.version>
     <resources-plugin.version>3.3.0</resources-plugin.version>
     <compiler-plugin.version>3.10.1</compiler-plugin.version>
     <surefire-plugin.version>2.22.2</surefire-plugin.version>
-    <jar-plugin.version>3.2.2</jar-plugin.version>
-    <shade-plugin.version>3.3.0</shade-plugin.version>
+    <jar-plugin.version>3.3.0</jar-plugin.version>
+    <shade-plugin.version>3.4.0</shade-plugin.version>
     <failsafe-plugin.version>2.22.2</failsafe-plugin.version>
     <jacoco-plugin.version>0.8.8</jacoco-plugin.version>
     <javadoc-plugin.version>3.4.1</javadoc-plugin.version>
@@ -89,11 +89,11 @@
     <nexus-staging-plugin.version>1.6.13</nexus-staging-plugin.version>
     <aws-plugin.version>0.2.29</aws-plugin.version>
     <!-- test -->
-    <junit-jupiter.version>5.9.0</junit-jupiter.version>
-    <mockito.version>4.7.0</mockito.version>
+    <junit-jupiter.version>5.9.1</junit-jupiter.version>
+    <mockito.version>4.8.0</mockito.version>
     <hamcrest.version>2.2</hamcrest.version>
     <hamcrest-optional.version>2.0.0</hamcrest-optional.version>
-    <slf4j-mock.version>2.3.0</slf4j-mock.version>
+    <slf4j2-mock.version>2.3.0</slf4j2-mock.version>
     <system-stubs.version>2.0.1</system-stubs.version>
     <!-- dependencies -->
     <jetbrains-annotations.version>23.0.0</jetbrains-annotations.version>
@@ -101,7 +101,7 @@
     <lambda-events.version>3.11.0</lambda-events.version>
     <slf4j.version>2.0.3</slf4j.version>
     <slf4j-aws-lambda.version>3.0.3</slf4j-aws-lambda.version>
-    <json.version>20220320</json.version>
+    <json.version>20220924</json.version>
     <!-- other -->
     <aws-request-id>request#</aws-request-id>
   </properties>
@@ -196,7 +196,7 @@
     <dependency>
       <groupId>org.simplify4u</groupId>
       <artifactId>slf4j2-mock</artifactId>
-      <version>${slf4j-mock.version}</version>
+      <version>${slf4j2-mock.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
