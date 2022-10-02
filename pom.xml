@@ -93,14 +93,14 @@
     <mockito.version>4.7.0</mockito.version>
     <hamcrest.version>2.2</hamcrest.version>
     <hamcrest-optional.version>2.0.0</hamcrest-optional.version>
-    <slf4j-mock.version>2.2.0</slf4j-mock.version>
+    <slf4j-mock.version>2.3.0</slf4j-mock.version>
     <system-stubs.version>2.0.1</system-stubs.version>
     <!-- dependencies -->
     <jetbrains-annotations.version>23.0.0</jetbrains-annotations.version>
     <lambda-core.version>1.2.1</lambda-core.version>
     <lambda-events.version>3.11.0</lambda-events.version>
-    <slf4j.version>1.7.36</slf4j.version>
-    <slf4j-aws-lambda.version>2.1.1</slf4j-aws-lambda.version>
+    <slf4j.version>2.0.3</slf4j.version>
+    <slf4j-aws-lambda.version>3.0.3</slf4j-aws-lambda.version>
     <json.version>20220320</json.version>
     <!-- other -->
     <aws-request-id>request#</aws-request-id>
@@ -195,7 +195,7 @@
     </dependency>
     <dependency>
       <groupId>org.simplify4u</groupId>
-      <artifactId>slf4j-mock</artifactId>
+      <artifactId>slf4j2-mock</artifactId>
       <version>${slf4j-mock.version}</version>
       <scope>test</scope>
     </dependency>
@@ -384,7 +384,7 @@
           </properties>
           <reuseForks>false</reuseForks>
           <classpathDependencyExcludes>
-            <classpathDependencyExclude>org.simplify4u:slf4j-mock</classpathDependencyExclude>
+            <classpathDependencyExclude>org.simplify4u:slf4j2-mock</classpathDependencyExclude>
             <classpathDependencyExclude>uk.bot-by:slf4j-aws-lambda</classpathDependencyExclude>
           </classpathDependencyExcludes>
         </configuration>
