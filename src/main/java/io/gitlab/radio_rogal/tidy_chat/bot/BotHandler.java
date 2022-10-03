@@ -17,7 +17,9 @@ package io.gitlab.radio_rogal.tidy_chat.bot;
 
 import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.deleteMessage;
 import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.getChatId;
+import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.getChatTitle;
 import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.getMessageId;
+import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.getNewChatTitle;
 import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.isBotMessage;
 import static java.util.Objects.isNull;
 import static java.util.Optional.empty;
@@ -44,9 +46,9 @@ public class BotHandler implements
 
   private static final String AWS_REQUEST_ID = "request#";
   private static final String FORWARDED_FOR = "X-Forwarded-For";
+  private static final String NEW_CHAT_TITLE = "new_chat_title";
   private static final Collection<String> REMOVE_MESSAGES_WITH_KEYS = Set.of("new_chat_members",
-      "left_chat_member", "new_chat_title", "new_chat_photo", "delete_chat_photo",
-      "pinned_message");
+      "left_chat_member", NEW_CHAT_TITLE, "new_chat_photo", "delete_chat_photo", "pinned_message");
   private static final int MAX_SUBSTRING_LENGTH = 1024;
   private static final String MESSAGE = "message";
 
@@ -100,8 +102,13 @@ public class BotHandler implements
       var responseBody = deleteMessage(chatId, messageId);
 
       if (logger.isInfoEnabled(remove)) {
-        message.keySet().stream().filter(REMOVE_MESSAGES_WITH_KEYS::contains).findAny().ifPresent(
-            key -> logger.info(remove, "remove message in the chat {}: {}", chatId, key));
+        message.keySet().stream().filter(REMOVE_MESSAGES_WITH_KEYS::contains).findAny()
+            .ifPresent(key -> {
+              var chatTitle =
+                  (NEW_CHAT_TITLE.equals(key)) ? getNewChatTitle(message) : getChatTitle(message);
+
+              logger.info(remove, "remove message in the chat {}/{}: {}", chatId, chatTitle, key);
+            });
       }
 
       responseEvent = Optional.of(LambdaUtils.getResponseEvent(responseBody));

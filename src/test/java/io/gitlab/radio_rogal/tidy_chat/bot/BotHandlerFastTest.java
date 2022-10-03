@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.ArgumentCaptor;
@@ -145,26 +146,32 @@ class BotHandlerFastTest {
 
   @DisplayName("Remove a message")
   @ParameterizedTest
-  @ValueSource(strings = {"new_chat_members", "left_chat_member", "new_chat_title",
-      "new_chat_photo", "delete_chat_photo", "pinned_message"})
-  void removeMessage(String action) {
+  @CsvSource(value = {"new_chat_members,test title", "left_chat_member,test title",
+      "new_chat_title,new title", "new_chat_photo,test title", "delete_chat_photo,test title",
+      "pinned_message,test title"})
+  void removeMessage(String action, String title) {
     when(logger.isInfoEnabled(isA(Marker.class))).thenReturn(true);
 
     JSONObject chat = new JSONObject();
     JSONObject member_action = new JSONObject();
 
     chat.put("id", 9876543210L);
+    chat.put("title", "test title");
     member_action.put("chat", chat);
     member_action.put("message_id", 12345L);
-    member_action.put(action, "test");
+    if ("new_chat_title".equals(action)) {
+      member_action.put(action, "new title");
+    } else {
+      member_action.put(action, "test");
+    }
 
     // when
     var responseEvent = handler.processMessage(member_action);
 
     // then
     verify(logger).isInfoEnabled(markerCaptor.capture());
-    verify(logger).info(markerCaptor.capture(), eq("remove message in the chat {}: {}"),
-        eq(9876543210L), eq(action));
+    verify(logger).info(markerCaptor.capture(), eq("remove message in the chat {}/{}: {}"),
+        eq(9876543210L), eq(title), eq(action));
 
     var markers = markerCaptor.getAllValues().stream().map(Marker::getName)
         .collect(Collectors.toSet());

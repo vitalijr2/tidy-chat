@@ -27,6 +27,8 @@ public class TelegramUtils {
   private static final String CHAT = "chat";
   private static final String ID = "id";
   private static final String MESSAGE_ID = "message_id";
+  private static final String NEW_CHAT_TITLE = "new_chat_title";
+  private static final String TITLE = "title";
   private static final String VIA_BOT = "via_bot";
   // Telegram field values
   private static final String DELETE_MESSAGE = "deleteMessage";
@@ -45,6 +47,10 @@ public class TelegramUtils {
     return getId(message.getJSONObject(CHAT));
   }
 
+  public static String getChatTitle(@NotNull JSONObject message) {
+    return getTitle(message.getJSONObject(CHAT));
+  }
+
   /**
    * Get an ID
    */
@@ -56,14 +62,21 @@ public class TelegramUtils {
     return message.getLong(MESSAGE_ID);
   }
 
+  public static String getNewChatTitle(@NotNull JSONObject message) {
+    return message.getString(NEW_CHAT_TITLE);
+  }
+
+  public static String getTitle(@NotNull JSONObject message) {
+    return message.getString(TITLE);
+  }
+
   public static boolean isBotMessage(JSONObject message) {
     return message.has(VIA_BOT);
   }
 
   public static String deleteMessage(long chatId, long messageId) {
     return messageBuilder().add(TelegramField.Method, DELETE_MESSAGE)
-        .add(TelegramField.ChatID, chatId)
-        .add(TelegramField.MessageId, messageId).build();
+        .add(TelegramField.ChatID, chatId).add(TelegramField.MessageId, messageId).build();
   }
 
   private static MessageBuilder messageBuilder() {
