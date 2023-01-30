@@ -94,7 +94,7 @@
     <hamcrest.version>2.2</hamcrest.version>
     <hamcrest-optional.version>2.0.0</hamcrest-optional.version>
     <slf4j2-mock.version>2.3.0</slf4j2-mock.version>
-    <system-stubs.version>2.0.1</system-stubs.version>
+    <system-stubs.version>2.0.2</system-stubs.version>
     <!-- dependencies -->
     <jetbrains-annotations.version>24.0.0</jetbrains-annotations.version>
     <lambda-core.version>1.2.2</lambda-core.version>
