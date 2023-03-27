@@ -85,7 +85,7 @@
     <javadoc-plugin.version>3.5.0</javadoc-plugin.version>
     <source-plugin.version>3.2.1</source-plugin.version>
     <sign-plugin.version>1.0.1</sign-plugin.version>
-    <deploy-plugin.version>3.1.0</deploy-plugin.version>
+    <deploy-plugin.version>3.1.1</deploy-plugin.version>
     <nexus-staging-plugin.version>1.6.13</nexus-staging-plugin.version>
     <aws-plugin.version>0.2.29</aws-plugin.version>
     <!-- test -->
