@@ -538,7 +538,7 @@
     <deploy-plugin.version>3.1.1</deploy-plugin.version>
     <enforcer-plugin.version>3.2.1</enforcer-plugin.version>
     <failsafe-plugin.version>3.0.0</failsafe-plugin.version>
-    <flatten-plugin.version>1.4.0</flatten-plugin.version>
+    <flatten-plugin.version>1.4.1</flatten-plugin.version>
     <hamcrest-optional.version>2.0.0</hamcrest-optional.version>
     <hamcrest.version>2.2</hamcrest.version>
     <jacoco-plugin.version>0.8.8</jacoco-plugin.version>
