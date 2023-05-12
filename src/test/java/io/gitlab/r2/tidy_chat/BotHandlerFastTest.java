@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -22,6 +23,8 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.json.JSONObject;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -37,6 +40,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
 
 @ExtendWith(MockitoExtension.class)
@@ -48,13 +52,23 @@ class BotHandlerFastTest {
   @Mock
   private Context context;
   @Mock
-  private Logger logger;
-  @Mock
   private APIGatewayProxyRequestEvent requestEvent;
+
+  private Logger logger;
 
   @InjectMocks
   @Spy
   private BotHandler handler = new BotHandler();
+
+  @AfterEach
+  void tearDown() {
+    clearInvocations(logger);
+  }
+
+  @BeforeEach
+  void setUp() {
+    logger = LoggerFactory.getLogger(BotHandler.class);
+  }
 
   @DisplayName("A request event with an empty body")
   @ParameterizedTest(name = "[{index}] body <{0}>")
