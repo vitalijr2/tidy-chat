@@ -4,9 +4,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.json.JSONObject;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -34,7 +35,7 @@ class TelegramUtilsTest {
     message.put("chat", chat);
 
     // when and then
-    Assertions.assertEquals(9876543210L, TelegramUtils.getChatId(message));
+    assertEquals(9876543210L, TelegramUtils.getChatId(message));
   }
 
   @DisplayName("ID")
@@ -44,7 +45,7 @@ class TelegramUtilsTest {
     message.put("id", 9876543210L);
 
     // when and then
-    Assertions.assertEquals(9876543210L, TelegramUtils.getId(message));
+    assertEquals(9876543210L, TelegramUtils.getId(message));
   }
 
   @DisplayName("Message sends via another bot")
@@ -56,14 +57,14 @@ class TelegramUtilsTest {
     message.put("via_bot", bot);
 
     // when and then
-    Assertions.assertTrue(TelegramUtils.isBotMessage(message));
+    assertTrue(TelegramUtils.isBotMessage(message));
   }
 
   @DisplayName("Message does not send via another bot")
   @Test
   void nonBotMessage() {
     // when and then
-    Assertions.assertFalse(TelegramUtils.isBotMessage(message));
+    assertFalse(TelegramUtils.isBotMessage(message));
   }
 
 
