@@ -30,6 +30,7 @@ public abstract class AbstractUpdateFactory implements UpdateFactory {
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   protected abstract Update processInlineQuery(JSONObject message);
+
   protected abstract Update processMessage(JSONObject message);
 
   public @Nullable Update parseUpdate(@NotNull String updateText) {

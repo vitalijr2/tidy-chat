@@ -1,6 +1,7 @@
 package io.gitlab.r2.telegram_bot;
 
 import static java.util.Collections.singleton;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -9,8 +10,10 @@ import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.ArgumentMatchers.startsWith;
 import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
@@ -22,6 +25,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -32,6 +37,8 @@ import org.slf4j.LoggerFactory;
 @Tag("fast")
 class AbstractUpdateFactoryTest {
 
+  @Captor
+  private ArgumentCaptor<JSONObject> jsonCaptor;
   @Spy
   private AbstractUpdateFactory factory = new TestUpdateFactory();
   private Logger logger;
@@ -90,6 +97,24 @@ class AbstractUpdateFactoryTest {
     assertNull(update);
   }
 
+  @DisplayName("To handle an inline query")
+  @Test
+  void handleInlineQuery() {
+    doAnswer(invocationOnMock -> Mockito.mock(Update.class)).when(factory)
+        .processInlineQuery(isA(JSONObject.class));
+
+    // when
+    var update = factory.parseUpdate("{\"inline_query\":{\"test\":\"passed\"}}");
+
+    // then
+    verify(factory).processInlineQuery(jsonCaptor.capture());
+    verify(factory, never()).processMessage(isA(JSONObject.class));
+
+    assertAll("inline query",
+        () -> assertEquals("{\"test\":\"passed\"}", jsonCaptor.getValue(), false),
+        () -> assertNotNull(update));
+  }
+
   @DisplayName("To handle a message")
   @Test
   void handleMessage() {
@@ -100,8 +125,11 @@ class AbstractUpdateFactoryTest {
     var update = factory.parseUpdate("{\"message\":{\"test\":\"passed\"}}");
 
     // then
-    verify(factory).processMessage(isA(JSONObject.class));
-    assertNotNull(update);
+    verify(factory, never()).processInlineQuery(isA(JSONObject.class));
+    verify(factory).processMessage(jsonCaptor.capture());
+
+    assertAll("message", () -> assertEquals("{\"test\":\"passed\"}", jsonCaptor.getValue(), false),
+        () -> assertNotNull(update));
   }
 
   static class TestUpdateFactory extends AbstractUpdateFactory {
