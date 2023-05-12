@@ -1,4 +1,4 @@
-package io.gitlab.radio_rogal.tidy_chat.bot;
+package io.gitlab.r2.tidy_chat;
 
 import static java.util.Collections.singleton;
 import static java.util.Collections.singletonMap;

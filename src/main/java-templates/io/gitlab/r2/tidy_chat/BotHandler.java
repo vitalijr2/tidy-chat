@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gitlab.radio_rogal.tidy_chat.bot;
+package io.gitlab.r2.tidy_chat;
 
-import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.deleteMessage;
-import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.getChatId;
-import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.getChatTitle;
-import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.getMessageId;
-import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.getNewChatTitle;
-import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.isBotMessage;
+import static io.gitlab.r2.telegram_bot.TelegramUtils.deleteMessage;
+import static io.gitlab.r2.telegram_bot.TelegramUtils.getChatId;
+import static io.gitlab.r2.telegram_bot.TelegramUtils.getChatTitle;
+import static io.gitlab.r2.telegram_bot.TelegramUtils.getMessageId;
+import static io.gitlab.r2.telegram_bot.TelegramUtils.getNewChatTitle;
+import static io.gitlab.r2.telegram_bot.TelegramUtils.isBotMessage;
 import static java.util.Objects.isNull;
 import static java.util.Optional.empty;
 
@@ -28,7 +28,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
-import io.gitlab.radio_rogal.tidy_chat.LambdaUtils;
+import io.gitlab.r2.aws_lambda.LambdaUtils;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
@@ -44,7 +44,6 @@ import org.slf4j.MarkerFactory;
 public class BotHandler implements
     RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
-  private static final String AWS_REQUEST_ID = "request#";
   private static final String FORWARDED_FOR = "X-Forwarded-For";
   private static final String NEW_CHAT_TITLE = "new_chat_title";
   private static final Collection<String> REMOVE_MESSAGES_WITH_KEYS = Set.of("new_chat_members",
@@ -58,7 +57,7 @@ public class BotHandler implements
   @Override
   public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent requestEvent,
       Context context) {
-    MDC.put(AWS_REQUEST_ID, context.getAwsRequestId());
+    MDC.put("@aws-request-id@", context.getAwsRequestId());
 
     Optional<APIGatewayProxyResponseEvent> responseEvent = empty();
     var requestEventBody = requestEvent.getBody();

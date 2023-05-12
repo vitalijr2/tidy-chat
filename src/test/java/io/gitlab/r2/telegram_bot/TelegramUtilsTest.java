@@ -1,17 +1,12 @@
-package io.gitlab.radio_rogal.tidy_chat;
+package io.gitlab.r2.telegram_bot;
 
-import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.deleteMessage;
-import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.getChatId;
-import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.getId;
-import static io.gitlab.radio_rogal.tidy_chat.TelegramUtils.isBotMessage;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.json.JSONObject;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -39,7 +34,7 @@ class TelegramUtilsTest {
     message.put("chat", chat);
 
     // when and then
-    assertEquals(9876543210L, getChatId(message));
+    Assertions.assertEquals(9876543210L, TelegramUtils.getChatId(message));
   }
 
   @DisplayName("ID")
@@ -49,7 +44,7 @@ class TelegramUtilsTest {
     message.put("id", 9876543210L);
 
     // when and then
-    assertEquals(9876543210L, getId(message));
+    Assertions.assertEquals(9876543210L, TelegramUtils.getId(message));
   }
 
   @DisplayName("Message sends via another bot")
@@ -61,14 +56,14 @@ class TelegramUtilsTest {
     message.put("via_bot", bot);
 
     // when and then
-    assertTrue(isBotMessage(message));
+    Assertions.assertTrue(TelegramUtils.isBotMessage(message));
   }
 
   @DisplayName("Message does not send via another bot")
   @Test
   void nonBotMessage() {
     // when and then
-    assertFalse(isBotMessage(message));
+    Assertions.assertFalse(TelegramUtils.isBotMessage(message));
   }
 
 
@@ -76,7 +71,7 @@ class TelegramUtilsTest {
   @Test
   void removeMessage() {
     // when
-    var jsonText = deleteMessage(9876543210L, 12345L);
+    var jsonText = TelegramUtils.deleteMessage(9876543210L, 12345L);
 
     // then
     JSONObject responseMessage = new JSONObject(jsonText);

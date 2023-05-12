@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gitlab.radio_rogal.tidy_chat;
+package io.gitlab.r2.telegram_bot;
 
 import java.util.HashMap;
 import java.util.Map;
