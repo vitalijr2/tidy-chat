@@ -152,8 +152,8 @@ class BotHandlerFastTest {
       String expectedContentType) {
     verify(context).getAwsRequestId();
     assertAll("Response", () -> assertEquals(expectedBody, responseEvent.getBody(), "Body"),
-        () -> assertEquals(expectedContentType, responseEvent.getHeaders().get("Content type"),
-            "Content-Type"), () -> assertEquals(200, responseEvent.getStatusCode(), "Status code"));
+        () -> assertEquals(expectedContentType, responseEvent.getHeaders().get("Content-Type"),
+            "Content type"), () -> assertEquals(200, responseEvent.getStatusCode(), "Status code"));
   }
 
 }
