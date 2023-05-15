@@ -1,18 +1,12 @@
 package io.gitlab.r2.tidy_chat;
 
-import static java.util.Collections.singleton;
 import static java.util.Collections.singletonMap;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.clearInvocations;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -20,9 +14,8 @@ import static org.mockito.Mockito.when;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import org.json.JSONObject;
+import io.gitlab.r2.telegram_bot.Update;
+import io.gitlab.r2.telegram_bot.UpdateFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -30,35 +23,28 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.Marker;
 
 @ExtendWith(MockitoExtension.class)
 @Tag("fast")
 class BotHandlerFastTest {
 
-  @Captor
-  private ArgumentCaptor<Marker> markerCaptor;
   @Mock
   private Context context;
   @Mock
   private APIGatewayProxyRequestEvent requestEvent;
+  @Mock
+  private Update update;
+  @Mock
+  private UpdateFactory updateFactory;
 
   private Logger logger;
-
-  @InjectMocks
-  @Spy
-  private BotHandler handler = new BotHandler();
+  private BotHandler handler;
 
   @AfterEach
   void tearDown() {
@@ -67,6 +53,8 @@ class BotHandlerFastTest {
 
   @BeforeEach
   void setUp() {
+    when(context.getAwsRequestId()).thenReturn("test-id");
+    handler = new BotHandler(updateFactory);
     logger = LoggerFactory.getLogger(BotHandler.class);
   }
 
@@ -76,7 +64,6 @@ class BotHandlerFastTest {
   @ValueSource(strings = " ")
   void emptyRequestEventBody(String body) {
     // given
-    when(context.getAwsRequestId()).thenReturn("test-id");
     when(requestEvent.getHeaders()).thenReturn(singletonMap("X-Forwarded-For", "1.2.3.4.5"));
     when(requestEvent.getBody()).thenReturn(body);
 
@@ -84,124 +71,89 @@ class BotHandlerFastTest {
     var responseEvent = handler.handleRequest(requestEvent, context);
 
     // then
-    verify(context).getAwsRequestId();
     verify(logger).warn("Empty request from {}", "1.2.3.4.5");
 
-    assertResponseEvent(responseEvent, "OK", "text/plain", 200);
+    assertAndVerify(responseEvent, "OK", "text/plain");
   }
 
-  @DisplayName("A request body contains invalid JSON")
+  @DisplayName("The update factory returns null")
   @Test
-  void wrongJSON() {
+  void updateFactoryReturnsNull() {
     // given
-    when(context.getAwsRequestId()).thenReturn("test-id");
-    when(requestEvent.getHeaders()).thenReturn(singletonMap("X-Forwarded-For", "1.2.3.4.5"));
-    when(requestEvent.getBody()).thenReturn("{\"json\":\"bad\"");
-
-    // when
-    var responseEvent = handler.handleRequest(requestEvent, context);
-
-    // then
-    verify(context).getAwsRequestId();
-    verify(logger).warn(eq("Wrong request from {}: {}\n{}"), eq("1.2.3.4.5"), anyString(),
-        eq("{\"json\":\"bad\""));
-
-    assertResponseEvent(responseEvent, "OK", "text/plain", 200);
-  }
-
-  @DisplayName("To handle an unknown update")
-  @Test
-  void handleUnknownRequest() {
-    // given
-    when(context.getAwsRequestId()).thenReturn("test-id");
-    when(logger.isTraceEnabled()).thenReturn(true);
     when(requestEvent.getBody()).thenReturn("{\"test\":\"passed\"}");
+    when(updateFactory.parseUpdate(anyString())).thenReturn(null);
 
     // when
     var responseEvent = handler.handleRequest(requestEvent, context);
 
     // then
-    verify(context).getAwsRequestId();
-    verify(logger).isTraceEnabled();
-    verify(logger).trace("{\"test\":\"passed\"}");
-    verify(logger).info(eq("Unprocessed update: {}"), eq(singleton("test")));
+    verify(logger, never()).trace(anyString());
     verifyNoMoreInteractions(logger);
 
-    assertResponseEvent(responseEvent, "OK", "text/plain", 200);
+    assertAndVerify(responseEvent, "OK", "text/plain");
   }
 
-  @DisplayName("To handle a message")
+  @DisplayName("An update throws an exception")
   @Test
-  void handleMessageRequest() {
+  void updateWithException() throws Exception {
     // given
-    when(context.getAwsRequestId()).thenReturn("test-id");
-    when(logger.isTraceEnabled()).thenReturn(false);
-    when(requestEvent.getBody()).thenReturn("{\"message\":{\"text\":\"Hello, world!\"}}");
-    doAnswer(invocation -> {
-      var responseEvent = mock(APIGatewayProxyResponseEvent.class);
-
-      when(responseEvent.getBody()).thenReturn("O.K.");
-      when(responseEvent.getHeaders()).thenReturn(singletonMap("Content-Type", "text/plain"));
-      when(responseEvent.getStatusCode()).thenReturn(202);
-
-      return Optional.of(responseEvent);
-    }).when(handler).processMessage(isA(JSONObject.class));
+    when(requestEvent.getHeaders()).thenReturn(singletonMap("X-Forwarded-For", "1.2.3.4.5"));
+    when(requestEvent.getBody()).thenReturn("{\"json\":\"bad\"");
+    when(update.call()).thenThrow(new Exception("test exception"));
+    when(updateFactory.parseUpdate(anyString())).thenReturn(update);
 
     // when
     var responseEvent = handler.handleRequest(requestEvent, context);
 
     // then
-    verify(context).getAwsRequestId();
-    verify(logger).isTraceEnabled();
-    verify(handler).processMessage(isA(JSONObject.class));
+    verify(logger).warn(eq("Update call from {}: {}\n{}"), eq("1.2.3.4.5"), eq("test exception"),
+        eq("{\"json\":\"bad\""));
 
-    assertResponseEvent(responseEvent, "O.K.", "text/plain", 202);
+    assertAndVerify(responseEvent, "OK", "text/plain");
   }
 
-  @DisplayName("Remove a message")
-  @ParameterizedTest
-  @CsvSource(value = {"new_chat_members,test title", "left_chat_member,test title",
-      "new_chat_title,new title", "new_chat_photo,test title", "delete_chat_photo,test title",
-      "pinned_message,test title"})
-  void removeMessage(String action, String title) {
-    when(logger.isInfoEnabled(isA(Marker.class))).thenReturn(true);
-
-    JSONObject chat = new JSONObject();
-    JSONObject member_action = new JSONObject();
-
-    chat.put("id", 9876543210L);
-    chat.put("title", "test title");
-    member_action.put("chat", chat);
-    member_action.put("message_id", 12345L);
-    if ("new_chat_title".equals(action)) {
-      member_action.put(action, "new title");
-    } else {
-      member_action.put(action, "test");
-    }
+  @DisplayName("The update returns null")
+  @Test
+  void updateReturnsNull() throws Exception {
+    // given
+    when(requestEvent.getBody()).thenReturn("{\"test\":\"passed\"}");
+    when(update.call()).thenReturn(null);
+    when(updateFactory.parseUpdate(anyString())).thenReturn(update);
 
     // when
-    var responseEvent = handler.processMessage(member_action);
+    var responseEvent = handler.handleRequest(requestEvent, context);
 
     // then
-    verify(logger).isInfoEnabled(markerCaptor.capture());
-    verify(logger).info(markerCaptor.capture(), eq("remove message in the chat {}/{}: {}"),
-        eq(9876543210L), eq(title), eq(action));
+    verify(logger, never()).trace(anyString());
+    verifyNoMoreInteractions(logger);
 
-    var markers = markerCaptor.getAllValues().stream().map(Marker::getName)
-        .collect(Collectors.toSet());
-
-    assertThat("Check the remove marker", markers, contains("remove"));
-
-    responseEvent.ifPresentOrElse(event -> assertResponseEvent(event,
-        "{\"method\":\"deleteMessage\",\"message_id\":12345,\"chat_id\":9876543210}",
-        "application/json", 200), () -> fail("Response event is empty"));
+    assertAndVerify(responseEvent, "OK", "text/plain");
   }
 
-  private void assertResponseEvent(APIGatewayProxyResponseEvent responseEvent, String expectedBody,
-      String expectedContentType, int expectedStatusCode) {
+  @DisplayName("The update returns a value")
+  @Test
+  void updateReturnsValue() throws Exception {
+    // given
+    when(requestEvent.getBody()).thenReturn("{\"test\":\"passed\"}");
+    when(update.call()).thenReturn("{\"number\":1}");
+    when(updateFactory.parseUpdate(anyString())).thenReturn(update);
+
+    // when
+    var responseEvent = handler.handleRequest(requestEvent, context);
+
+    // then
+    verify(logger).trace("Response: {}", "{\"number\":1}");
+    verifyNoMoreInteractions(logger);
+
+    assertAndVerify(responseEvent, "{\"number\":1}", "application/json");
+  }
+
+  private void assertAndVerify(APIGatewayProxyResponseEvent responseEvent, String expectedBody,
+      String expectedContentType) {
+    verify(context).getAwsRequestId();
     assertAll("Response", () -> assertEquals(expectedBody, responseEvent.getBody()),
         () -> assertEquals(expectedContentType, responseEvent.getHeaders().get("Content-Type")),
-        () -> assertEquals(expectedStatusCode, responseEvent.getStatusCode()));
+        () -> assertEquals(200, responseEvent.getStatusCode()));
   }
 
 }
