@@ -46,9 +46,9 @@ class BotHandlerSlowTest {
     var responseEvent = handler.handleRequest(requestEvent, context);
 
     // then
-    assertAll(caseName, () -> assertNotNull(responseEvent, "response event"),
-        () -> assertThat(responseEvent.getStatusCode(), equalTo(200)),
-        () -> assertThat(responseEvent.getBody(), equalTo("OK")));
+    assertAll(caseName, () -> assertNotNull(responseEvent, "Response event no null"),
+        () -> assertThat("Status code", responseEvent.getStatusCode(), equalTo(200)),
+        () -> assertThat("Response body", responseEvent.getBody(), equalTo("OK")));
   }
 
   @DisplayName("The message should be deleted")
@@ -63,9 +63,9 @@ class BotHandlerSlowTest {
     var responseEvent = handler.handleRequest(requestEvent, context);
 
     // then
-    assertAll(caseName, () -> assertNotNull(responseEvent, "response event"),
-        () -> assertThat("status code", responseEvent.getStatusCode(), equalTo(200)),
-        () -> assertEquals("delete message callback",
+    assertAll(caseName, () -> assertNotNull(responseEvent, "Response event not null"),
+        () -> assertThat("Status code", responseEvent.getStatusCode(), equalTo(200)),
+        () -> assertEquals("Response callback",
             "{\"method\":\"deleteMessage\",\"message_id\":67890,\"chat_id\":12345}",
             responseEvent.getBody(), true));
   }

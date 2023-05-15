@@ -9,7 +9,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -35,10 +34,6 @@ class DeleteMessageTest {
     logger = LoggerFactory.getLogger(DeleteMessage.class);
   }
 
-  @AfterEach
-  void tearDown() {
-  }
-
   @DisplayName("Delete message")
   @Test
   void call() {
@@ -53,9 +48,10 @@ class DeleteMessageTest {
         eq(12345L), eq("test title"), eq("test operation"));
 
     assertAll("Delete message",
-        () -> assertThat(markerCaptor.getValue(), hasProperty("name", equalTo("remove"))),
-        () -> assertEquals("{\"message_id\":67890,\"method\":\"deleteMessage\",\"chat_id\":12345}",
-            response, true));
+        () -> assertThat("Marker", markerCaptor.getValue(), hasProperty("name", equalTo("remove"))),
+        () -> assertEquals("Response callback",
+            "{\"message_id\":67890,\"method\":\"deleteMessage\",\"chat_id\":12345}", response,
+            true));
   }
 
 }

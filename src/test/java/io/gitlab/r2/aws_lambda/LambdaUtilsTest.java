@@ -24,7 +24,7 @@ class LambdaUtilsTest {
     var responseEvent = LambdaUtils.getResponseEvent(body);
 
     // then
-    assertAll("Return HTTP 200 with correct content type and not empty body",
+    assertAll("Return HTTP 200 with the JSON content type and not empty body",
         () -> assertEquals(200, responseEvent.getStatusCode(), "HTTP status code"),
         () -> assertThat("Content type", responseEvent.getHeaders(),
             hasEntry("Content-Type", "application/json")),
@@ -38,7 +38,7 @@ class LambdaUtilsTest {
     var responseEvent = LambdaUtils.responseOK();
 
     // then
-    assertAll("Return HTTP 200 with correct content type and not empty body",
+    assertAll("Return HTTP 200 with the text content type and not empty body",
         () -> assertEquals(200, responseEvent.getStatusCode(), "HTTP status code"),
         () -> assertThat("Content type", responseEvent.getHeaders(),
             hasEntry("Content-Type", "text/plain")),

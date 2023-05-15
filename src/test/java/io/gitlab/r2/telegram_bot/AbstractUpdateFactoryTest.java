@@ -63,6 +63,7 @@ class AbstractUpdateFactoryTest {
 
     // then
     verify(logger).warn(startsWith("Wrong update:"), anyString(), eq(body));
+
     assertNull(update);
   }
 
@@ -78,6 +79,7 @@ class AbstractUpdateFactoryTest {
     // then
     verify(logger).isTraceEnabled();
     verify(logger).info(eq("Unprocessed update: {}"), eq(singleton("test")));
+
     assertNull(update);
   }
 
@@ -94,6 +96,7 @@ class AbstractUpdateFactoryTest {
     verify(logger).isTraceEnabled();
     verify(logger).trace("{\"test\":\"passed\"}");
     verify(logger).info(eq("Unprocessed update: {}"), eq(singleton("test")));
+
     assertNull(update);
   }
 
@@ -110,9 +113,9 @@ class AbstractUpdateFactoryTest {
     verify(factory).processInlineQuery(jsonCaptor.capture());
     verify(factory, never()).processMessage(isA(JSONObject.class));
 
-    assertAll("inline query",
-        () -> assertEquals("{\"test\":\"passed\"}", jsonCaptor.getValue(), false),
-        () -> assertNotNull(update));
+    assertAll("Inline query",
+        () -> assertEquals("JSON message", "{\"test\":\"passed\"}", jsonCaptor.getValue(), false),
+        () -> assertNotNull(update, "Update not null"));
   }
 
   @DisplayName("To handle a message")
@@ -128,8 +131,9 @@ class AbstractUpdateFactoryTest {
     verify(factory, never()).processInlineQuery(isA(JSONObject.class));
     verify(factory).processMessage(jsonCaptor.capture());
 
-    assertAll("message", () -> assertEquals("{\"test\":\"passed\"}", jsonCaptor.getValue(), false),
-        () -> assertNotNull(update));
+    assertAll("Message",
+        () -> assertEquals("JSON message", "{\"test\":\"passed\"}", jsonCaptor.getValue(), false),
+        () -> assertNotNull(update, "Update not null"));
   }
 
   static class TestUpdateFactory extends AbstractUpdateFactory {

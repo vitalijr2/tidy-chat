@@ -44,6 +44,7 @@ class TidyChatUpdateFactoryTest {
 
     // then
     verifyNoInteractions(message);
+
     assertEquals("Inline query is not supported", exception.getMessage());
   }
 

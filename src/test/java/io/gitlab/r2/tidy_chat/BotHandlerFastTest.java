@@ -151,9 +151,9 @@ class BotHandlerFastTest {
   private void assertAndVerify(APIGatewayProxyResponseEvent responseEvent, String expectedBody,
       String expectedContentType) {
     verify(context).getAwsRequestId();
-    assertAll("Response", () -> assertEquals(expectedBody, responseEvent.getBody()),
-        () -> assertEquals(expectedContentType, responseEvent.getHeaders().get("Content-Type")),
-        () -> assertEquals(200, responseEvent.getStatusCode()));
+    assertAll("Response", () -> assertEquals(expectedBody, responseEvent.getBody(), "Body"),
+        () -> assertEquals(expectedContentType, responseEvent.getHeaders().get("Content type"),
+            "Content-Type"), () -> assertEquals(200, responseEvent.getStatusCode(), "Status code"));
   }
 
 }
