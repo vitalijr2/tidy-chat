@@ -82,6 +82,19 @@
         <version>1.5.0</version>
       </plugin>
       <plugin>
+        <artifactId>templating-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>filter-sources</goal>
+            </goals>
+            <id>filter-sources</id>
+          </execution>
+        </executions>
+        <groupId>org.codehaus.mojo</groupId>
+        <version>1.0.0</version>
+      </plugin>
+      <plugin>
         <artifactId>maven-resources-plugin</artifactId>
         <configuration>
           <propertiesEncoding>ISO-8859-1</propertiesEncoding>
@@ -102,7 +115,9 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <classpathDependencyExcludes>
-            <classpathDependencyExclude>uk.bot-by:slf4j-aws-lambda</classpathDependencyExclude>
+            <classpathDependencyExclude>uk.bot-by:slf4j-aws-lambda-core</classpathDependencyExclude>
+            <classpathDependencyExclude>uk.bot-by:slf4j-aws-lambda-logger
+            </classpathDependencyExclude>
           </classpathDependencyExcludes>
           <properties>
             <groups>fast</groups>
@@ -169,8 +184,8 @@
         <artifactId>maven-failsafe-plugin</artifactId>
         <configuration>
           <classpathDependencyExcludes>
-            <classpathDependencyExclude>org.simplify4u:slf4j2-mock</classpathDependencyExclude>
-            <classpathDependencyExclude>uk.bot-by:slf4j-aws-lambda</classpathDependencyExclude>
+            <classpathDependencyExclude>com.ocarlsen.test:mock-slf4j-impl
+            </classpathDependencyExclude>
           </classpathDependencyExcludes>
           <forkCount>1</forkCount>
           <includes>
@@ -307,8 +322,8 @@
     <dependency>
       <artifactId>annotations</artifactId>
       <groupId>org.jetbrains</groupId>
-      <version>24.0.1</version>
       <scope>provided</scope>
+      <version>24.0.1</version>
     </dependency>
     <dependency>
       <artifactId>aws-lambda-java-core</artifactId>
@@ -326,10 +341,16 @@
       <version>2.0.7</version>
     </dependency>
     <dependency>
-      <artifactId>slf4j-aws-lambda</artifactId>
+      <artifactId>slf4j-aws-lambda-core</artifactId>
       <groupId>uk.bot-by</groupId>
       <scope>runtime</scope>
-      <version>3.1.0</version>
+      <version>1.0.0</version>
+    </dependency>
+    <dependency>
+      <artifactId>slf4j-aws-lambda-logger</artifactId>
+      <groupId>uk.bot-by</groupId>
+      <scope>runtime</scope>
+      <version>1.0.0</version>
     </dependency>
     <dependency>
       <artifactId>json</artifactId>
@@ -392,10 +413,16 @@
       <version>${system-stubs.version}</version>
     </dependency>
     <dependency>
-      <artifactId>slf4j2-mock</artifactId>
-      <groupId>org.simplify4u</groupId>
+      <artifactId>mock-slf4j-impl</artifactId>
+      <groupId>com.ocarlsen.test</groupId>
       <scope>test</scope>
-      <version>2.3.0</version>
+      <version>2.0.0</version>
+    </dependency>
+    <dependency>
+      <artifactId>jsonassert</artifactId>
+      <groupId>org.skyscreamer</groupId>
+      <scope>test</scope>
+      <version>1.5.1</version>
     </dependency>
   </dependencies>
   <description>A Telegram bot keeps a chat tidy.</description>
@@ -529,12 +556,12 @@
     </profile>
   </profiles>
   <properties>
-    <java.version>11</java.version>
     <aws-plugin.version>0.2.29</aws-plugin.version>
     <aws-request-id>request#</aws-request-id>
     <changelist>-SNAPSHOT</changelist>
-    <junit-jupiter.version>5.9.3</junit-jupiter.version>
+    <java.version>11</java.version>
     <json.version>20230227</json.version>
+    <junit-jupiter.version>5.9.3</junit-jupiter.version>
     <mockito.version>5.3.1</mockito.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <revision>1.1.0</revision>
