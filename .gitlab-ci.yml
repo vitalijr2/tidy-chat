@@ -1,7 +1,7 @@
 variables:
   MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
 
-image: maven:3-openjdk-11
+image: maven:3-openjdk-17
 
 include:
   - template: Security/SAST.gitlab-ci.yml
@@ -38,7 +38,7 @@ sast:
 spotbugs-sast:
   variables:
     MAVEN_REPO_PATH: '.m2/repository'
-    SAST_JAVA_VERSION: 11
+    SAST_JAVA_VERSION: 17
 
 coverage:
   stage: verify
