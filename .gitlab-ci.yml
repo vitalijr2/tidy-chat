@@ -16,11 +16,14 @@ stages:
   - build
   - test
   - verify
+  - deploy
 
 build:
   stage: build
   script:
-    - ./mvnw $MAVEN_CLI_OPTS compile
+    - ./mvnw $MAVEN_CLI_OPTS clean compile
+  except:
+    - tags
 
 test:
   stage: test
@@ -31,9 +34,13 @@ test:
       junit:
         - target/surefire-reports/TEST-*.xml
         - target/failsafe-reports/TEST-*.xml
+  except:
+    - tags
 
 sast:
   stage: test
+  except:
+    - tags
 
 spotbugs-sast:
   variables:
@@ -54,3 +61,10 @@ codacy:
     - bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r target/site/jacoco/jacoco.xml
   rules:
     - if: $CODACY_PROJECT_TOKEN && $CI_COMMIT_TAG == null
+
+aws-lambda:
+  stage: deploy
+  script:
+    - ./mvnw $MAVEN_CLI_OPTS clean package aws:deploy -Paws-lambda
+  rules:
+    - if: $AWS_ACCESS_KEY_ID && $AWS_SECRET_ACCESS_KEY && $CI_COMMIT_TAG != null
