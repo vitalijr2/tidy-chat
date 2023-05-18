@@ -43,8 +43,10 @@ public abstract class AbstractUpdateFactory implements UpdateFactory {
         logger.trace(body.toString());
       }
       if (body.has(INLINE_QUERY)) {
+        logger.debug("Inline query");
         update = processInlineQuery(body.getJSONObject(INLINE_QUERY));
       } else if (body.has(MESSAGE)) {
+        logger.debug("Message");
         update = processMessage(body.getJSONObject(MESSAGE));
       } else {
         logger.info("Unprocessed update: {}", body.keySet());
