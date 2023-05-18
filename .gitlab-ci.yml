@@ -39,8 +39,6 @@ test:
 
 sast:
   stage: test
-  except:
-    - tags
 
 spotbugs-sast:
   variables:
