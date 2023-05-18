@@ -65,4 +65,4 @@ aws-lambda:
   script:
     - ./mvnw $MAVEN_CLI_OPTS clean package aws:deployLambda -DskipTests=true -Paws-lambda
   rules:
-    - if: $AWS_ACCESS_KEY && $AWS_REGION && $AWS_SECRET_ACCESS_KEY && && $CI_COMMIT_TAG != null
+    - if: $AWS_ACCESS_KEY && $AWS_REGION && $AWS_SECRET_ACCESS_KEY && $CI_COMMIT_TAG != null
