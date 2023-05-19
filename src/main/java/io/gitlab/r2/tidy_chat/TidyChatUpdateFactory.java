@@ -18,6 +18,7 @@ public class TidyChatUpdateFactory extends AbstractUpdateFactory {
   private static final String NEW_CHAT_TITLE = "new_chat_title";
   private static final Collection<String> REMOVE_MESSAGES_WITH_KEYS = Set.of("new_chat_members",
       "left_chat_member", NEW_CHAT_TITLE, "new_chat_photo", "delete_chat_photo", "pinned_message");
+  private static final String RIGHT_ARROW = " -> ";
 
   @Override
   protected Update processInlineQuery(JSONObject message) {
@@ -33,18 +34,21 @@ public class TidyChatUpdateFactory extends AbstractUpdateFactory {
     if (isBotMessage(message)) {
       logger.debug("Ignore message via another bot");
     } else {
+      var chatId = getChatId(message);
+      var messageId = getMessageId(message);
+      var title = getChatTitle(message);
+
       var operationBeingDeleted = message.keySet().stream()
           .filter(REMOVE_MESSAGES_WITH_KEYS::contains).findAny();
 
       if (operationBeingDeleted.isPresent()) {
-        var chatId = getChatId(message);
-        var messageId = getMessageId(message);
-        var title = (NEW_CHAT_TITLE.equals(operationBeingDeleted.get())) ? getNewChatTitle(message)
-            : getChatTitle(message);
-
+        if (operationBeingDeleted.get().equals(NEW_CHAT_TITLE)) {
+          title = title + RIGHT_ARROW + getNewChatTitle(message);
+        }
         update = new DeleteMessage(chatId, messageId, operationBeingDeleted.get(), title);
       }
     }
+
     return update;
   }
 

@@ -13,19 +13,19 @@ public class DeleteMessage extends AbstractUpdate {
 
   private final long chatId;
   private final long messageId;
-  private final String operation;
+  private final String cause;
   private final String title;
 
-  public DeleteMessage(long chatId, long messageId, String operation, String title) {
+  public DeleteMessage(long chatId, long messageId, String cause, String title) {
     this.chatId = chatId;
     this.messageId = messageId;
-    this.operation = operation;
+    this.cause = cause;
     this.title = title;
   }
 
   @Override
   public String call() {
-    logger.info(REMOVE, "remove message in the chat {}/{}: {}", chatId, title, operation);
+    logger.info(REMOVE, "remove message in the chat {}/{}: {}", chatId, title, cause);
 
     return messageBuilder().add(TelegramField.Method, DELETE_MESSAGE)
         .add(TelegramField.ChatID, chatId).add(TelegramField.MessageId, messageId).build();
