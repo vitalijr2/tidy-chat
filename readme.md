@@ -1,5 +1,6 @@
 # Tidy Chat
 
+![Woman with mop](./woman-with-mop.png)  
 A Telegram bot keeps a chat tidy.
 
 [![Codacy Grade](https://app.codacy.com/project/badge/Grade/c3ff723d193f4adcb16fd89a8eaa1262)](https://www.codacy.com/gl/radio_rogal/tidy-chat/dashboard?utm_source=gitlab.com&amp;utm_medium=referral&amp;utm_content=radio_rogal/tidy-chat&amp;utm_campaign=Badge_Grade)
@@ -35,5 +36,5 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-[Apache License v2.0](LICENSE)
+[Apache License v2.0](LICENSE)  
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0.html)
