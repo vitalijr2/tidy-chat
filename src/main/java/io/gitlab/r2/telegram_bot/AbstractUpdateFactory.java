@@ -27,11 +27,15 @@ public abstract class AbstractUpdateFactory implements UpdateFactory {
   private static final String INLINE_QUERY = "inline_query";
   private static final String MESSAGE = "message";
   private static final int MAX_SUBSTRING_LENGTH = 1024;
+  private static final String MY_CHAT_MEMBER = "my_chat_member";
+
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   protected abstract Update processInlineQuery(JSONObject message);
 
   protected abstract Update processMessage(JSONObject message);
+
+  protected abstract Update processMyChatMember(JSONObject message);
 
   public @Nullable Update parseUpdate(@NotNull String updateText) {
     Update update = null;
@@ -48,6 +52,9 @@ public abstract class AbstractUpdateFactory implements UpdateFactory {
       } else if (body.has(MESSAGE)) {
         logger.debug("Message");
         update = processMessage(body.getJSONObject(MESSAGE));
+      } else if (body.has(MY_CHAT_MEMBER)) {
+        logger.debug("My chat member");
+        update = processMyChatMember(body.getJSONObject(MY_CHAT_MEMBER));
       } else {
         logger.info("Unprocessed update: {}", body.keySet());
       }

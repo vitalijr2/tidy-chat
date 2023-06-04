@@ -29,27 +29,33 @@ public class TidyChatUpdateFactory extends AbstractUpdateFactory {
   protected Update processMessage(JSONObject message) {
     logger.trace("Process message");
 
-    Update update = null;
-
     if (isBotMessage(message)) {
       logger.debug("Ignore message via another bot");
-    } else {
+      return null;
+    }
+
+    Update update = null;
+
+    var notificationBeingDeleted = message.keySet().stream()
+        .filter(REMOVE_MESSAGES_WITH_KEYS::contains).findAny();
+
+    if (notificationBeingDeleted.isPresent()) {
       var chatId = getChatId(message);
       var messageId = getMessageId(message);
       var title = getChatTitle(message);
 
-      var operationBeingDeleted = message.keySet().stream()
-          .filter(REMOVE_MESSAGES_WITH_KEYS::contains).findAny();
-
-      if (operationBeingDeleted.isPresent()) {
-        if (operationBeingDeleted.get().equals(NEW_CHAT_TITLE)) {
-          title = title + RIGHT_ARROW + getNewChatTitle(message);
-        }
-        update = new DeleteMessage(chatId, messageId, operationBeingDeleted.get(), title);
+      if (notificationBeingDeleted.get().equals(NEW_CHAT_TITLE)) {
+        title = title + RIGHT_ARROW + getNewChatTitle(message);
       }
+      update = new DeleteMessage(chatId, messageId, notificationBeingDeleted.get(), title);
     }
 
     return update;
+  }
+
+  @Override
+  protected Update processMyChatMember(JSONObject message) {
+    return null;
   }
 
 }

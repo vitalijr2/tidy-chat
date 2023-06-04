@@ -10,8 +10,8 @@ import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.ArgumentMatchers.startsWith;
 import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
 
@@ -110,8 +110,9 @@ class AbstractUpdateFactoryTest {
     var update = factory.parseUpdate("{\"inline_query\":{\"test\":\"passed\"}}");
 
     // then
+    verify(factory).parseUpdate(anyString());
     verify(factory).processInlineQuery(jsonCaptor.capture());
-    verify(factory, never()).processMessage(isA(JSONObject.class));
+    verifyNoMoreInteractions(factory);
 
     assertAll("Inline query",
         () -> assertEquals("JSON message", "{\"test\":\"passed\"}", jsonCaptor.getValue(), false),
@@ -128,10 +129,30 @@ class AbstractUpdateFactoryTest {
     var update = factory.parseUpdate("{\"message\":{\"test\":\"passed\"}}");
 
     // then
-    verify(factory, never()).processInlineQuery(isA(JSONObject.class));
+    verify(factory).parseUpdate(anyString());
     verify(factory).processMessage(jsonCaptor.capture());
+    verifyNoMoreInteractions(factory);
 
     assertAll("Message",
+        () -> assertEquals("JSON message", "{\"test\":\"passed\"}", jsonCaptor.getValue(), false),
+        () -> assertNotNull(update, "Update not null"));
+  }
+
+  @DisplayName("To handle the own char member")
+  @Test
+  void handleMyChatMember() {
+    doAnswer(invocationOnMock -> Mockito.mock(Update.class)).when(factory)
+        .processMyChatMember(isA(JSONObject.class));
+
+    // when
+    var update = factory.parseUpdate("{\"my_chat_member\":{\"test\":\"passed\"}}");
+
+    // then
+    verify(factory).parseUpdate(anyString());
+    verify(factory).processMyChatMember(jsonCaptor.capture());
+    verifyNoMoreInteractions(factory);
+
+    assertAll("My chat member",
         () -> assertEquals("JSON message", "{\"test\":\"passed\"}", jsonCaptor.getValue(), false),
         () -> assertNotNull(update, "Update not null"));
   }
@@ -145,6 +166,11 @@ class AbstractUpdateFactoryTest {
 
     @Override
     protected Update processMessage(JSONObject message) {
+      return null;
+    }
+
+    @Override
+    protected Update processMyChatMember(JSONObject message) {
       return null;
     }
 

@@ -90,9 +90,8 @@ class TidyChatUpdateFactoryTest {
     when(message.keySet()).thenReturn(Set.of(fieldName));
     if ("new_chat_title".equals(fieldName)) {
       when(message.getString("new_chat_title")).thenReturn("test title");
-    } else {
-      when(message.getString("title")).thenReturn("test title");
     }
+    when(message.getString("title")).thenReturn("test title");
 
     // when
     var update = updateFactory.processMessage(message);
