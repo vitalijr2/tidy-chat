@@ -1,8 +1,7 @@
 variables:
   MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
-  MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
 
-image: maven:3-openjdk-11
+image: maven:3-openjdk-17
 
 include:
   - template: Security/SAST.gitlab-ci.yml
@@ -10,28 +9,60 @@ include:
 cache:
   paths:
     - .m2/repository
+    - .mvn/wrapper
     - target
 
 stages:
   - build
   - test
+  - verify
+  - deploy
 
 build:
   stage: build
   script:
-    - mvn $MAVEN_CLI_OPTS compile
+    - ./mvnw $MAVEN_CLI_OPTS clean compile
+  except:
+    - tags
 
 test:
   stage: test
   script:
-    - mvn $MAVEN_CLI_OPTS verify
-    - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, "instructions covered"; print 100*covered/instructions, "% covered" }' target/site/jacoco/jacoco.csv
-    - bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r target/site/jacoco/jacoco.xml
-  coverage: '/(\d+\.?\d*) \% covered/'
+    - ./mvnw $MAVEN_CLI_OPTS verify
+  artifacts:
+    reports:
+      junit:
+        - target/surefire-reports/TEST-*.xml
+        - target/failsafe-reports/TEST-*.xml
+  except:
+    - tags
 
 sast:
   stage: test
 
 spotbugs-sast:
   variables:
-    SAST_JAVA_VERSION: 11
+    MAVEN_REPO_PATH: '.m2/repository'
+    SAST_JAVA_VERSION: 17
+
+coverage:
+  stage: verify
+  script:
+    - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, "instructions covered"; print 100*covered/instructions, "% covered" }' target/site/jacoco/jacoco.csv
+  coverage: '/(\d+\.?\d*) \% covered/'
+  rules:
+    - if: $CI_DEFAULT_BRANCH == $CI_COMMIT_BRANCH && $CI_COMMIT_TAG == null
+
+codacy:
+  stage: verify
+  script:
+    - bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r target/site/jacoco/jacoco.xml
+  rules:
+    - if: $CODACY_PROJECT_TOKEN && $CI_COMMIT_TAG == null
+
+aws-lambda:
+  stage: deploy
+  script:
+    - ./mvnw $MAVEN_CLI_OPTS clean package aws:deployLambda -DskipTests=true -Paws-lambda
+  rules:
+    - if: $AWS_ACCESS_KEY && $AWS_REGION && $AWS_SECRET_ACCESS_KEY && $CI_COMMIT_TAG != null

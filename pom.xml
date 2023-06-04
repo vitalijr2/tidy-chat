@@ -23,14 +23,19 @@
     <finalName>${project.artifactId}</finalName>
     <plugins>
       <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <version>3.2.0</version>
+      </plugin>
+      <plugin>
         <artifactId>maven-enforcer-plugin</artifactId>
         <configuration>
           <rules>
             <requireJavaVersion>
-              <version>[${minimal-version.java},)</version>
+              <version>[${java.version},)</version>
             </requireJavaVersion>
             <requireMavenVersion>
-              <version>[${minimal-version.maven},)</version>
+              <version>[3.8.5,)</version>
             </requireMavenVersion>
           </rules>
         </configuration>
@@ -50,12 +55,7 @@
           </execution>
         </executions>
         <groupId>org.apache.maven.plugins</groupId>
-        <version>${enforcer-plugin.version}</version>
-      </plugin>
-      <plugin>
-        <artifactId>maven-clean-plugin</artifactId>
-        <groupId>org.apache.maven.plugins</groupId>
-        <version>${clean-plugin.version}</version>
+        <version>3.3.0</version>
       </plugin>
       <plugin>
         <artifactId>flatten-maven-plugin</artifactId>
@@ -79,42 +79,57 @@
           </execution>
         </executions>
         <groupId>org.codehaus.mojo</groupId>
-        <version>${flatten-plugin.version}</version>
+        <version>1.5.0</version>
+      </plugin>
+      <plugin>
+        <artifactId>templating-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>filter-sources</goal>
+            </goals>
+            <id>filter-sources</id>
+          </execution>
+        </executions>
+        <groupId>org.codehaus.mojo</groupId>
+        <version>1.0.0</version>
       </plugin>
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
         <configuration>
-          <propertiesEncoding>${propertiesEncoding}</propertiesEncoding>
+          <propertiesEncoding>ISO-8859-1</propertiesEncoding>
         </configuration>
         <groupId>org.apache.maven.plugins</groupId>
-        <version>${resources-plugin.version}</version>
+        <version>3.3.1</version>
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <release>${maven.compiler.release}</release>
+          <release>${java.version}</release>
           <showDeprecation>true</showDeprecation>
         </configuration>
         <groupId>org.apache.maven.plugins</groupId>
-        <version>${compiler-plugin.version}</version>
+        <version>3.11.0</version>
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <classpathDependencyExcludes>
-            <classpathDependencyExclude>uk.bot-by:slf4j-aws-lambda</classpathDependencyExclude>
+            <classpathDependencyExclude>uk.bot-by:slf4j-aws-lambda-core</classpathDependencyExclude>
+            <classpathDependencyExclude>uk.bot-by:slf4j-aws-lambda-logger
+            </classpathDependencyExclude>
           </classpathDependencyExcludes>
           <properties>
             <groups>fast</groups>
           </properties>
         </configuration>
         <groupId>org.apache.maven.plugins</groupId>
-        <version>${surefire-plugin.version}</version>
+        <version>3.1.0</version>
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
         <groupId>org.apache.maven.plugins</groupId>
-        <version>${jar-plugin.version}</version>
+        <version>3.3.0</version>
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
@@ -163,14 +178,14 @@
           </execution>
         </executions>
         <groupId>org.apache.maven.plugins</groupId>
-        <version>${shade-plugin.version}</version>
+        <version>3.4.1</version>
       </plugin>
       <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
         <configuration>
           <classpathDependencyExcludes>
-            <classpathDependencyExclude>org.simplify4u:slf4j2-mock</classpathDependencyExclude>
-            <classpathDependencyExclude>uk.bot-by:slf4j-aws-lambda</classpathDependencyExclude>
+            <classpathDependencyExclude>com.ocarlsen.test:mock-slf4j-impl
+            </classpathDependencyExclude>
           </classpathDependencyExcludes>
           <forkCount>1</forkCount>
           <includes>
@@ -190,7 +205,7 @@
           </execution>
         </executions>
         <groupId>org.apache.maven.plugins</groupId>
-        <version>${failsafe-plugin.version}</version>
+        <version>3.1.0</version>
       </plugin>
       <plugin>
         <artifactId>jacoco-maven-plugin</artifactId>
@@ -281,7 +296,7 @@
           </execution>
         </executions>
         <groupId>org.jacoco</groupId>
-        <version>${jacoco-plugin.version}</version>
+        <version>0.8.10</version>
       </plugin>
     </plugins>
     <resources>
@@ -307,29 +322,35 @@
     <dependency>
       <artifactId>annotations</artifactId>
       <groupId>org.jetbrains</groupId>
-      <version>${jetbrains-annotations.version}</version>
       <scope>provided</scope>
+      <version>24.0.1</version>
     </dependency>
     <dependency>
       <artifactId>aws-lambda-java-core</artifactId>
       <groupId>com.amazonaws</groupId>
-      <version>${lambda-core.version}</version>
+      <version>1.2.2</version>
     </dependency>
     <dependency>
       <artifactId>aws-lambda-java-events</artifactId>
       <groupId>com.amazonaws</groupId>
-      <version>${lambda-events.version}</version>
+      <version>3.11.1</version>
     </dependency>
     <dependency>
       <artifactId>slf4j-api</artifactId>
       <groupId>org.slf4j</groupId>
-      <version>${slf4j.version}</version>
+      <version>2.0.7</version>
     </dependency>
     <dependency>
-      <artifactId>slf4j-aws-lambda</artifactId>
+      <artifactId>slf4j-aws-lambda-core</artifactId>
       <groupId>uk.bot-by</groupId>
       <scope>runtime</scope>
-      <version>${slf4j-aws-lambda.version}</version>
+      <version>1.0.0</version>
+    </dependency>
+    <dependency>
+      <artifactId>slf4j-aws-lambda-logger</artifactId>
+      <groupId>uk.bot-by</groupId>
+      <scope>runtime</scope>
+      <version>1.0.0</version>
     </dependency>
     <dependency>
       <artifactId>json</artifactId>
@@ -371,13 +392,13 @@
       <artifactId>hamcrest</artifactId>
       <groupId>org.hamcrest</groupId>
       <scope>test</scope>
-      <version>${hamcrest.version}</version>
+      <version>2.2</version>
     </dependency>
     <dependency>
       <artifactId>hamcrest-optional</artifactId>
       <groupId>com.github.npathai</groupId>
       <scope>test</scope>
-      <version>${hamcrest-optional.version}</version>
+      <version>2.0.0</version>
     </dependency>
     <dependency>
       <artifactId>system-stubs-core</artifactId>
@@ -392,10 +413,16 @@
       <version>${system-stubs.version}</version>
     </dependency>
     <dependency>
-      <artifactId>slf4j2-mock</artifactId>
-      <groupId>org.simplify4u</groupId>
+      <artifactId>mock-slf4j-impl</artifactId>
+      <groupId>com.ocarlsen.test</groupId>
       <scope>test</scope>
-      <version>${slf4j2-mock.version}</version>
+      <version>2.0.0</version>
+    </dependency>
+    <dependency>
+      <artifactId>jsonassert</artifactId>
+      <groupId>org.skyscreamer</groupId>
+      <scope>test</scope>
+      <version>1.5.1</version>
     </dependency>
   </dependencies>
   <description>A Telegram bot keeps a chat tidy.</description>
@@ -439,7 +466,7 @@
               </execution>
             </executions>
             <groupId>org.apache.maven.plugins</groupId>
-            <version>${source-plugin.version}</version>
+            <version>3.2.1</version>
           </plugin>
         </plugins>
       </build>
@@ -467,7 +494,6 @@
               <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
               <links>
                 <link>https://javadoc.io/doc/org.json/json/${json.version}/</link>
-                <link>https://javadoc.io/doc/io.github.openfeign/feign-core/${feign.version}/</link>
               </links>
               <show>public</show>
               <top><![CDATA[
@@ -484,7 +510,7 @@
               </execution>
             </executions>
             <groupId>org.apache.maven.plugins</groupId>
-            <version>${javadoc-plugin.version}</version>
+            <version>3.5.0</version>
           </plugin>
         </plugins>
       </build>
@@ -503,7 +529,7 @@
               </execution>
             </executions>
             <groupId>org.simplify4u.plugins</groupId>
-            <version>${sign-plugin.version}</version>
+            <version>1.0.1</version>
           </plugin>
           <plugin>
             <artifactId>maven-deploy-plugin</artifactId>
@@ -511,7 +537,7 @@
               <skip>true</skip>
             </configuration>
             <groupId>org.apache.maven.plugins</groupId>
-            <version>${deploy-plugin.version}</version>
+            <version>3.1.1</version>
           </plugin>
           <plugin>
             <artifactId>nexus-staging-maven-plugin</artifactId>
@@ -522,50 +548,41 @@
             </configuration>
             <extensions>true</extensions>
             <groupId>org.sonatype.plugins</groupId>
-            <version>${nexus-staging-plugin.version}</version>
+            <version>1.6.13</version>
           </plugin>
         </plugins>
       </build>
       <id>sign-and-deploy</id>
+    </profile>
+    <profile>
+      <id>aws-lambda</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.github.davidmoten</groupId>
+            <artifactId>aws-maven-plugin</artifactId>
+            <version>0.2.33</version>
+            <configuration>
+              <artifact>${project.build.directory}/${project.build.finalName}.jar</artifact>
+              <functionName>${lambda.name}</functionName>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
   <properties>
     <aws-plugin.version>0.2.29</aws-plugin.version>
     <aws-request-id>request#</aws-request-id>
     <changelist>-SNAPSHOT</changelist>
-    <clean-plugin.version>3.2.0</clean-plugin.version>
-    <compiler-plugin.version>3.11.0</compiler-plugin.version>
-    <deploy-plugin.version>3.1.1</deploy-plugin.version>
-    <enforcer-plugin.version>3.3.0</enforcer-plugin.version>
-    <failsafe-plugin.version>3.1.0</failsafe-plugin.version>
-    <flatten-plugin.version>1.5.0</flatten-plugin.version>
-    <hamcrest-optional.version>2.0.0</hamcrest-optional.version>
-    <hamcrest.version>2.2</hamcrest.version>
-    <jacoco-plugin.version>0.8.10</jacoco-plugin.version>
-    <jar-plugin.version>3.3.0</jar-plugin.version>
-    <javadoc-plugin.version>3.5.0</javadoc-plugin.version>
-    <jetbrains-annotations.version>24.0.1</jetbrains-annotations.version>
+    <java.version>17</java.version>
     <json.version>20230227</json.version>
     <junit-jupiter.version>5.9.3</junit-jupiter.version>
-    <lambda-core.version>1.2.2</lambda-core.version>
-    <lambda-events.version>3.11.1</lambda-events.version>
-    <maven.compiler.release>11</maven.compiler.release>
-    <minimal-version.java>11</minimal-version.java>
-    <minimal-version.maven>3.8.4</minimal-version.maven>
+    <lambda.name>tidy-chat</lambda.name>
     <mockito.version>5.3.1</mockito.version>
-    <nexus-staging-plugin.version>1.6.13</nexus-staging-plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <propertiesEncoding>ISO-8859-1</propertiesEncoding>
-    <resources-plugin.version>3.3.1</resources-plugin.version>
     <revision>1.1.0</revision>
     <sha1/>
-    <shade-plugin.version>3.4.1</shade-plugin.version>
-    <sign-plugin.version>1.0.1</sign-plugin.version>
-    <slf4j-aws-lambda.version>3.1.0</slf4j-aws-lambda.version>
-    <slf4j.version>2.0.7</slf4j.version>
-    <slf4j2-mock.version>2.3.0</slf4j2-mock.version>
-    <source-plugin.version>3.3.0</source-plugin.version>
-    <surefire-plugin.version>3.1.0</surefire-plugin.version>
     <system-stubs.version>2.0.2</system-stubs.version>
   </properties>
   <scm>
