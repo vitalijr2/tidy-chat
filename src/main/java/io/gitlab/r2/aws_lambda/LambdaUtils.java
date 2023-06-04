@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gitlab.radio_rogal.tidy_chat;
+package io.gitlab.r2.aws_lambda;
 
 import static java.util.Collections.singletonMap;
 

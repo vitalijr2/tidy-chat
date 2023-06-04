@@ -1,6 +1,7 @@
 # Tidy Chat
 
-A Telegram bot keeps a chat tidy.
+A Telegram bot keeps a chat tidy.  
+![Woman with mop](./woman-with-mop.png)
 
 [![Codacy Grade](https://app.codacy.com/project/badge/Grade/c3ff723d193f4adcb16fd89a8eaa1262)](https://www.codacy.com/gl/radio_rogal/tidy-chat/dashboard?utm_source=gitlab.com&amp;utm_medium=referral&amp;utm_content=radio_rogal/tidy-chat&amp;utm_campaign=Badge_Grade)
 [![Codacy Coverage](https://app.codacy.com/project/badge/Coverage/c3ff723d193f4adcb16fd89a8eaa1262)](https://www.codacy.com/gl/radio_rogal/tidy-chat/dashboard?utm_source=gitlab.com&utm_medium=referral&utm_content=radio_rogal/tidy-chat&utm_campaign=Badge_Coverage)

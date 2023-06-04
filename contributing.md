@@ -26,4 +26,4 @@ and [GitHub pull requests][github-pull-requests].
 [bot-gitlab]: https://gitlab.com/radio_rogal/tidy-chat/
 [bot-github]: https://github.com/radio-rogal/tidy-chat/
 [gitlab-merge-requests]: https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html
-[github-pull-requests]: https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request
+[github-pull-requests]: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request
