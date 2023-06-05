@@ -9,6 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 @Tag("fast")
 class TelegramUtilsTest {
@@ -35,6 +37,32 @@ class TelegramUtilsTest {
     assertEquals(9876543210L, TelegramUtils.getChatId(message));
   }
 
+  @DisplayName("Chat title")
+  @Test
+  void chatTitle() {
+    // given
+    JSONObject chat = new JSONObject();
+
+    chat.put("title", "test title");
+    message.put("chat", chat);
+
+    // when and then
+    assertEquals("test title", TelegramUtils.getChatTitle(message));
+  }
+
+  @DisplayName("Chat type")
+  @Test
+  void chatType() {
+    // given
+    JSONObject chat = new JSONObject();
+
+    chat.put("type", "test type");
+    message.put("chat", chat);
+
+    // when and then
+    assertEquals("test type", TelegramUtils.getChatType(message));
+  }
+
   @DisplayName("ID")
   @Test
   void id() {
@@ -43,6 +71,27 @@ class TelegramUtilsTest {
 
     // when and then
     assertEquals(9876543210L, TelegramUtils.getId(message));
+  }
+
+  @DisplayName("Message ID")
+  @Test
+  void messageId() {
+    // given
+    message.put("message_id", 9876543210L);
+
+    // when and then
+    assertEquals(9876543210L, TelegramUtils.getMessageId(message));
+  }
+
+
+  @DisplayName("New chat title")
+  @Test
+  void newChatTitle() {
+    // given
+    message.put("new_chat_title", "new test title");
+
+    // when and then
+    assertEquals("new test title", TelegramUtils.getNewChatTitle(message));
   }
 
   @DisplayName("Message sends via another bot")
@@ -64,5 +113,20 @@ class TelegramUtilsTest {
     assertFalse(TelegramUtils.isBotMessage(message));
   }
 
+  @DisplayName("Chat type: channel, group, supergroup")
+  @ParameterizedTest
+  @CsvSource({"channel,true,false,false", "group,false,true,false", "supergroup,false,false,true"})
+  void chatType(String chatType, boolean isChannel, boolean isGroup, boolean isSupergroup) {
+    // given
+    JSONObject chat = new JSONObject();
+
+    chat.put("type", chatType);
+    message.put("chat", chat);
+
+    // when and then
+    assertEquals(isChannel, TelegramUtils.isChannel(message));
+    assertEquals(isGroup, TelegramUtils.isGroup(message));
+    assertEquals(isSupergroup, TelegramUtils.isSupergroup(message));
+  }
 
 }

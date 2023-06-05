@@ -1,7 +1,8 @@
 case name|body
 New Chat Members|"{""message"": { ""message_id"": 67890, ""chat"": {""id"": 12345, ""title"": ""test title""}, ""new_chat_members"": [{""id"": 123, ""first_name"": ""John"", ""last_name"": ""Smith""}]}}"
 Left Chat Member|"{""message"": { ""message_id"": 67890, ""chat"": {""id"": 12345, ""title"": ""test title""}, ""left_chat_member"": {""id"": 123, ""first_name"": ""John"", ""last_name"": ""Smith""}}}"
-New Chat Title|"{""message"": { ""message_id"": 67890, ""chat"": {""id"": 12345, ""title"": ""old title""}, ""new_chat_title"": ""test title""}}"
+New Chat Title|"{""message"": { ""message_id"": 67890, ""chat"": {""id"": 12345, ""title"": ""old title"", ""type"": ""channel""}, ""new_chat_title"": ""test title""}}"
+New Chat Title|"{""message"": { ""message_id"": 67890, ""chat"": {""id"": 12345, ""title"": ""old title"", ""type"": ""supergroup""}, ""new_chat_title"": ""test title""}}"
 New Chat Photo|"{""message"": { ""message_id"": 67890, ""chat"": {""id"": 12345, ""title"": ""test title""}, ""new_chat_photo"": [{""file_id"": 123, ""width"": 1, ""height"": 1}]}}"
 Delete Chat Photo|"{""message"": { ""message_id"": 67890, ""chat"": {""id"": 12345, ""title"": ""test title""}, ""delete_chat_photo"": true }}"
 Pinned Message|"{""message"": { ""message_id"": 67890, ""chat"": {""id"": 12345, ""title"": ""test title""}, ""pinned_message"": { ""message_id"": 32323, ""chat"": {""id"": 12345, ""title"": ""test title""} }}}"
