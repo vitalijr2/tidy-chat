@@ -1,10 +1,10 @@
 # Tidy Chat
 
-A Telegram bot keeps a chat tidy.  
+A Telegram bot keeps a chat tidy.
 ![Woman with mop](./woman-with-mop.png)
 
-[![Codacy Grade](https://app.codacy.com/project/badge/Grade/c3ff723d193f4adcb16fd89a8eaa1262)](https://www.codacy.com/gl/radio_rogal/tidy-chat/dashboard?utm_source=gitlab.com&amp;utm_medium=referral&amp;utm_content=radio_rogal/tidy-chat&amp;utm_campaign=Badge_Grade)
-[![Codacy Coverage](https://app.codacy.com/project/badge/Coverage/c3ff723d193f4adcb16fd89a8eaa1262)](https://www.codacy.com/gl/radio_rogal/tidy-chat/dashboard?utm_source=gitlab.com&utm_medium=referral&utm_content=radio_rogal/tidy-chat&utm_campaign=Badge_Coverage)
+[![Codacy Grade](https://app.codacy.com/project/badge/Grade/c3ff723d193f4adcb16fd89a8eaa1262)](https://www.codacy.com/gl/vitalijr2/tidy-chat/dashboard?utm_source=gitlab.com&amp;utm_medium=referral&amp;utm_content=vitalijr2/tidy-chat&amp;utm_campaign=Badge_Grade)
+[![Codacy Coverage](https://app.codacy.com/project/badge/Coverage/c3ff723d193f4adcb16fd89a8eaa1262)](https://www.codacy.com/gl/vitalijr2/tidy-chat/dashboard?utm_source=gitlab.com&utm_medium=referral&utm_content=vitalijr2/tidy-chat&utm_campaign=Badge_Coverage)
 
 ## What does this bot do
 
@@ -22,7 +22,7 @@ See [Changelog](changelog.md)
 
 ## License
 
-Copyright 2022-2023 Witalij Berdinskich
+Copyright 2022-2023 Vitalij Berdinskih
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

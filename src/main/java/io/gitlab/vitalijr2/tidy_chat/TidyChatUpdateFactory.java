@@ -1,14 +1,14 @@
-package io.gitlab.r2.tidy_chat;
+package io.gitlab.vitalijr2.tidy_chat;
 
-import static io.gitlab.r2.telegram_bot.TelegramUtils.getChatId;
-import static io.gitlab.r2.telegram_bot.TelegramUtils.getChatTitle;
-import static io.gitlab.r2.telegram_bot.TelegramUtils.getMessageId;
-import static io.gitlab.r2.telegram_bot.TelegramUtils.getNewChatTitle;
-import static io.gitlab.r2.telegram_bot.TelegramUtils.isBotMessage;
+import static io.gitlab.vitalijr2.telegram_bot.TelegramUtils.getChatId;
+import static io.gitlab.vitalijr2.telegram_bot.TelegramUtils.getChatTitle;
+import static io.gitlab.vitalijr2.telegram_bot.TelegramUtils.getMessageId;
+import static io.gitlab.vitalijr2.telegram_bot.TelegramUtils.getNewChatTitle;
+import static io.gitlab.vitalijr2.telegram_bot.TelegramUtils.isBotMessage;
 
-import io.gitlab.r2.telegram_bot.AbstractUpdateFactory;
-import io.gitlab.r2.telegram_bot.Update;
-import io.gitlab.r2.tidy_chat.updates.DeleteMessage;
+import io.gitlab.vitalijr2.telegram_bot.AbstractUpdateFactory;
+import io.gitlab.vitalijr2.telegram_bot.Update;
+import io.gitlab.vitalijr2.tidy_chat.updates.DeleteMessage;
 import java.util.Collection;
 import java.util.Set;
 import org.json.JSONObject;

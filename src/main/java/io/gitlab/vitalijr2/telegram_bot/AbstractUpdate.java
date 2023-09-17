@@ -1,4 +1,4 @@
-package io.gitlab.r2.telegram_bot;
+package io.gitlab.vitalijr2.telegram_bot;
 
 import java.util.HashMap;
 import java.util.Map;

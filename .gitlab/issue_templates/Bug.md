@@ -4,7 +4,7 @@ Please read this!
 Before opening a new issue, make sure to search for keywords in the issues
 filtered by the "bug" label:
 
-- https://gitlab.com/radio_rogal/tidy-chat/-/issues/?label_name%5B%5D=bug
+- https://gitlab.com/vitalijr2/tidy-chat/-/issues/?label_name%5B%5D=bug
 
 and verify the issue you're about to submit isn't a duplicate.
 --->
@@ -41,4 +41,4 @@ Steps to reproduce the behavior:
 <!-- If you can, link to the line of code that might be responsible for the problem. -->
 
 /label ~bug
-/assign @radio_rogal
+/assign @vitalijr2

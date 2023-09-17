@@ -1,4 +1,4 @@
-package io.gitlab.r2.tidy_chat;
+package io.gitlab.vitalijr2.tidy_chat;
 
 import static java.util.Objects.nonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;

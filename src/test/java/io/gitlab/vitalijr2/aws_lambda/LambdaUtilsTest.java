@@ -1,4 +1,4 @@
-package io.gitlab.r2.aws_lambda;
+package io.gitlab.vitalijr2.aws_lambda;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsMapContaining.hasEntry;
