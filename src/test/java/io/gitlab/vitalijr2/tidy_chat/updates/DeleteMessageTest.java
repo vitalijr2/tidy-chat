@@ -1,4 +1,4 @@
-package io.gitlab.r2.tidy_chat.updates;
+package io.gitlab.vitalijr2.tidy_chat.updates;
 
 
 import static org.hamcrest.MatcherAssert.assertThat;

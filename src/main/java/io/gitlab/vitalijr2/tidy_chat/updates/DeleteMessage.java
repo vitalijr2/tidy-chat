@@ -1,7 +1,7 @@
-package io.gitlab.r2.tidy_chat.updates;
+package io.gitlab.vitalijr2.tidy_chat.updates;
 
-import io.gitlab.r2.telegram_bot.AbstractUpdate;
-import io.gitlab.r2.telegram_bot.TelegramField;
+import io.gitlab.vitalijr2.telegram_bot.AbstractUpdate;
+import io.gitlab.vitalijr2.telegram_bot.TelegramField;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 

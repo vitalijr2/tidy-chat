@@ -1,4 +1,4 @@
-package io.gitlab.r2.telegram_bot;
+package io.gitlab.vitalijr2.telegram_bot;
 
 import static java.util.Collections.singleton;
 import static org.junit.jupiter.api.Assertions.assertAll;

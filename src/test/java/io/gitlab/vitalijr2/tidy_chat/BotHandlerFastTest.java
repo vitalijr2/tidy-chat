@@ -1,4 +1,4 @@
-package io.gitlab.r2.tidy_chat;
+package io.gitlab.vitalijr2.tidy_chat;
 
 import static java.util.Collections.singletonMap;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -14,8 +14,8 @@ import static org.mockito.Mockito.when;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
-import io.gitlab.r2.telegram_bot.Update;
-import io.gitlab.r2.telegram_bot.UpdateFactory;
+import io.gitlab.vitalijr2.telegram_bot.Update;
+import io.gitlab.vitalijr2.telegram_bot.UpdateFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

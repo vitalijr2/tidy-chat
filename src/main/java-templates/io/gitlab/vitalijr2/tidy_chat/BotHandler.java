@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gitlab.r2.tidy_chat;
+package io.gitlab.vitalijr2.tidy_chat;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -23,8 +23,8 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
-import io.gitlab.r2.aws_lambda.LambdaUtils;
-import io.gitlab.r2.telegram_bot.UpdateFactory;
+import io.gitlab.vitalijr2.aws_lambda.LambdaUtils;
+import io.gitlab.vitalijr2.telegram_bot.UpdateFactory;
 import java.util.Optional;
 import org.jetbrains.annotations.VisibleForTesting;
 import org.slf4j.Logger;
