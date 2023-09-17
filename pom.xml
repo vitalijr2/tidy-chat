@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-	Copyright 2022-2023 Witalij Berdinskich
+	Copyright 2022-2023 Vitalij Berdinskih
 
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -316,7 +316,7 @@
   </build>
   <ciManagement>
     <system>GitLab</system>
-    <url>https://gitlab.com/radio_rogal/tidy-chat/-/pipelines</url>
+    <url>https://gitlab.com/vitalijr2/tidy-chat/-/pipelines</url>
   </ciManagement>
   <dependencies>
     <dependency>
@@ -428,18 +428,18 @@
   <description>A Telegram bot keeps a chat tidy.</description>
   <developers>
     <developer>
-      <email>radio_rogal@keemail.me</email>
-      <id>radio_rogal</id>
-      <name>Witalij Berdinskich</name>
+      <email>vitalij_r2@outlook.com</email>
+      <id>vitalijr2</id>
+      <name>Vitalij Berdinskih</name>
       <timezone>Europe/Kyiv</timezone>
-      <url>https://gitlab.com/radio_rogal</url>
+      <url>https://gitlab.com/vitalijr2</url>
     </developer>
   </developers>
-  <groupId>io.gitlab.radio_rogal.tg</groupId>
+  <groupId>io.gitlab.vitalijr2.tg</groupId>
   <inceptionYear>2022</inceptionYear>
   <issueManagement>
     <system>GitLab</system>
-    <url>https://gitlab.com/radio_rogal/tidy-chat/-/issues</url>
+    <url>https://gitlab.com/vitalijr2/tidy-chat/-/issues</url>
   </issueManagement>
   <licenses>
     <license>
@@ -586,10 +586,10 @@
     <system-stubs.version>2.1.1</system-stubs.version>
   </properties>
   <scm>
-    <connection>scm:git:https://gitlab.com/radio_rogal/tidy-chat.git</connection>
-    <developerConnection>scm:git:git@gitlab.com:radio_rogal/tidy-chat.git</developerConnection>
-    <url>https://gitlab.com/radio_rogal/tidy-chat</url>
+    <connection>scm:git:https://gitlab.com/vitalijr2/tidy-chat.git</connection>
+    <developerConnection>scm:git:git@gitlab.com:vitalijr2/tidy-chat.git</developerConnection>
+    <url>https://gitlab.com/vitalijr2/tidy-chat</url>
   </scm>
-  <url>https://gitlab.com/radio_rogal/tidy-chat</url>
+  <url>https://gitlab.com/vitalijr2/tidy-chat</url>
   <version>${revision}${changelist}${sha1}</version>
 </project>

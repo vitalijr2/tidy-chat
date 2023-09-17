@@ -4,8 +4,8 @@ Please read this!
 Before opening a new issue, make sure to search for keywords in the issues
 filtered by the "enhancement" and "suggestion" labels:
 
-- https://gitlab.com/radio_rogal/tidy-chat/-/issues/?label_name%5B%5D=enhancement
-- https://gitlab.com/radio_rogal/tidy-chat/-/issues/?label_name%5B%5D=suggestion
+- https://gitlab.com/vitalijr2/tidy-chat/-/issues/?label_name%5B%5D=enhancement
+- https://gitlab.com/vitalijr2/tidy-chat/-/issues/?label_name%5B%5D=suggestion
 
 and verify the issue you're about to submit isn't a duplicate.
 --->
@@ -28,4 +28,4 @@ and verify the issue you're about to submit isn't a duplicate.
  as it's tough to read otherwise. -->
 
 /label ~suggestion
-/assign @radio_rogal
+/assign @vitalijr2
