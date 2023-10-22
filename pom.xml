@@ -350,7 +350,7 @@
       <artifactId>slf4j-aws-lambda-logger</artifactId>
       <groupId>uk.bot-by</groupId>
       <scope>runtime</scope>
-      <version>1.0.1</version>
+      <version>1.0.2</version>
     </dependency>
     <dependency>
       <artifactId>json</artifactId>
