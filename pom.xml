@@ -576,7 +576,7 @@
     <aws-request-id>request#</aws-request-id>
     <changelist>-SNAPSHOT</changelist>
     <java.version>17</java.version>
-    <json.version>20231013</json.version>
+    <json.version>20240205</json.version>
     <junit-jupiter.version>5.10.2</junit-jupiter.version>
     <lambda.name>tidy-chat</lambda.name>
     <mockito.version>5.8.0</mockito.version>
