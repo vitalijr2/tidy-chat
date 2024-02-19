@@ -344,7 +344,7 @@
       <artifactId>slf4j-aws-lambda-core</artifactId>
       <groupId>uk.bot-by</groupId>
       <scope>runtime</scope>
-      <version>1.0.2</version>
+      <version>1.1.0</version>
     </dependency>
     <dependency>
       <artifactId>slf4j-aws-lambda-logger</artifactId>
