@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 
 public interface UpdateFactory {
 
-  @Nullable Update parseUpdate(@NotNull String updateText);
+  @Nullable
+  Update parseUpdate(@NotNull String updateText);
 
 }

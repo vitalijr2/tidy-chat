@@ -115,8 +115,8 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <classpathDependencyExcludes>
-            <classpathDependencyExclude>uk.bot-by:slf4j-aws-lambda-core</classpathDependencyExclude>
-            <classpathDependencyExclude>uk.bot-by:slf4j-aws-lambda-logger
+            <classpathDependencyExclude>io.github.vitalijr2.aws-lambda:aws-lambda-slf4j-core</classpathDependencyExclude>
+            <classpathDependencyExclude>io.github.vitalijr2.aws-lambda:aws-lambda-slf4j-logger
             </classpathDependencyExclude>
           </classpathDependencyExcludes>
           <properties>
@@ -146,6 +146,7 @@
               <excludes>
                 <exclude>module-info.class</exclude>
                 <exclude>META-INF/MANIFEST.MF</exclude>
+                <exclude>META-INF/**/module-info.class</exclude>
                 <exclude>META-INF/**/pom.properties</exclude>
                 <exclude>META-INF/**/pom.xml</exclude>
               </excludes>
@@ -341,16 +342,16 @@
       <version>2.0.12</version>
     </dependency>
     <dependency>
-      <artifactId>slf4j-aws-lambda-core</artifactId>
-      <groupId>uk.bot-by</groupId>
+      <artifactId>aws-lambda-slf4j-core</artifactId>
+      <groupId>io.github.vitalijr2.aws-lambda</groupId>
       <scope>runtime</scope>
-      <version>1.1.0</version>
+      <version>1.1.2</version>
     </dependency>
     <dependency>
-      <artifactId>slf4j-aws-lambda-logger</artifactId>
-      <groupId>uk.bot-by</groupId>
+      <artifactId>aws-lambda-slf4j-logger</artifactId>
+      <groupId>io.github.vitalijr2.aws-lambda</groupId>
       <scope>runtime</scope>
-      <version>1.1.0</version>
+      <version>1.1.2</version>
     </dependency>
     <dependency>
       <artifactId>json</artifactId>
@@ -555,20 +556,20 @@
       <id>sign-and-deploy</id>
     </profile>
     <profile>
-      <id>aws-lambda</id>
       <build>
         <plugins>
           <plugin>
-            <groupId>com.github.davidmoten</groupId>
             <artifactId>aws-maven-plugin</artifactId>
-            <version>0.2.33</version>
             <configuration>
               <artifact>${project.build.directory}/${project.build.finalName}.jar</artifact>
               <functionName>${lambda.name}</functionName>
             </configuration>
+            <groupId>com.github.davidmoten</groupId>
+            <version>0.2.33</version>
           </plugin>
         </plugins>
       </build>
+      <id>aws-lambda</id>
     </profile>
   </profiles>
   <properties>
