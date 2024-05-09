@@ -491,7 +491,6 @@
 <script type="text/javascript" src="{@docRoot}/resources/prism.js"></script>
 							]]></bottom>
               <docfilessubdirs>true</docfilessubdirs>
-              <isOffline>false</isOffline>
               <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
               <links>
                 <link>https://javadoc.io/doc/org.json/json/${json.version}/</link>
